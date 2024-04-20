@@ -15,10 +15,9 @@ def get_task(task_id):
     json_file = open("tasks.json","r+")
     json_data = json.load(json_file)
     tasks = json_data.get("tasks",[])
-    print (tasks)
-    task = next((task for task in tasks if task.id == task_id), None)
+    task = next((task for task in tasks if task['id'] == task_id), None)
     print (task)
-    return jsonify(task.to_json())
+    #return jsonify(task)
 
 def add_task(task_id,task_name,task_details):
     pass
@@ -29,6 +28,8 @@ def delete_task(task_id):
 def update_task(task_id,task_name,task_details):
     pass
 
-get_task(1)
+if __name__ == "__main__":
+    get_task(1)
+
 #a = tasks.jsonify('"1": {"title":"buy","details":"milk"}')
 #a

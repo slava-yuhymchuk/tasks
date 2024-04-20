@@ -1,6 +1,11 @@
 {
     "tasks": [
         {
+            "id": 3,
+            "title": "call",
+            "details": "Sharon"
+        },
+        {
             "id": 1,
             "title": "buy",
             "details": "milk"
@@ -9,11 +14,6 @@
             "id": 2,
             "title": "clean",
             "details": "kitchen"
-        },
-        {
-            "id": 3,
-            "title": "call",
-            "details": "Mary"
         }
     ]
 }
