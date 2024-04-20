@@ -12,7 +12,7 @@ def get_tasks():
 
 @app.route("/tasks/<int:id>", methods=["GET"])
 def get_task(id):
-    return tasks_be.tasks[id]
+    return tasks_be.get_task(id)
 
 @app.route("/tasks", methods=["POST"])
 def add_task():
