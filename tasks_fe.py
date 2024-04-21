@@ -27,3 +27,6 @@ def delete_task(task_id):
 @app.route("/tasks/<int:task_id>", methods=["POST"])
 def update_task(task_id):
     pass
+
+if __name__ == "__main__":
+    app.run(debug=True, host='0.0.0.0', port='5000')
