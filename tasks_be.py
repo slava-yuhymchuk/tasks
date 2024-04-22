@@ -1,22 +1,27 @@
-from flask import *
+import os
 import json
 
-json_file = open("tasks.json","r+")
-json_data = json.load(json_file)
-tasks = json_data.get("tasks",[])
+file_name = "tasks.json"
+
+def create_file():
+    if not os.path.isfile(file_name):
+        json_file = open(file_name, "w")
+        json.dump({"tasks": []}, json_file)
+        json_file.close()
+
+def read_file():
+    create_file()
+    json_file = open(file_name,"r")
+    json_data = json.load(json_file)
+    json_file.close()
+    return json_data
 
 def get_tasks():
-    json_file = open("tasks.json","r+")
-    json_data = json.load(json_file)
-    tasks = json_data.get("tasks",[])
+    tasks = read_file().get("tasks",[])
     return tasks
 
-def get_task(task_id):
-    json_file = open("tasks.json","r+")
-    json_data = json.load(json_file)
-    tasks = json_data.get("tasks",[])
-    task = next((task for task in tasks if task['id'] == task_id), None)
-    #print (task)
+def get_task(id):
+    task = next((task for task in get_tasks() if task["id"] == id), None)
     return task
     #return jsonify(task.to_json())
 
@@ -30,7 +35,7 @@ def update_task(task_id,task_name,task_details):
     pass
 
 if __name__ == "__main__":
-    a = get_task(1)
+    a = get_tasks()
     print (a)
 
 #a = tasks.jsonify('"1": {"title":"buy","details":"milk"}')

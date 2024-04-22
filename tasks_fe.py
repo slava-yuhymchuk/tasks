@@ -1,6 +1,5 @@
 
 from flask import Flask, request
-
 import json
 import tasks_be
 
@@ -8,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/tasks", methods=["GET"])
 def get_tasks():
-    return json.dumps(tasks_be.tasks)
+    return tasks_be.get_tasks()
 
 @app.route("/tasks/<int:id>", methods=["GET"])
 def get_task(id):

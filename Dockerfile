@@ -5,10 +5,10 @@ FROM python:alpine
 WORKDIR /tasks
 
 # copy the project files into the image
-COPY requirements.txt requirements.txt
-COPY tasks_be.py tasks_be.py
-COPY tasks_fe.py tasks_fe.py
-COPY tasks.json tasks.json
+COPY requirements.txt .
+COPY tasks_be.py .
+COPY tasks_fe.py .
+COPY tasks.json .
 
 # install the dependencies and packages in the requirements file
 RUN pip install -r requirements.txt
