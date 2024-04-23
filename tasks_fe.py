@@ -57,7 +57,7 @@ def update_task(id):
     finally: return updated_task
 
 # Change the status of specific task to "Done". Return completed task.
-@app.route("/tasks/<int:id>/done", methods=["PUT"])
+@app.route("/tasks/<int:id>/done", methods=["POST"])
 def mark_done(id):
     task = get_task(id)
     tasks = get_tasks()
