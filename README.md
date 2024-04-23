@@ -2,6 +2,9 @@
 ## API Endpoints
 
 - `GET /tasks`: Return all tasks.
+  ```bash
+  curl --request GET http://localhost:5000/tasks
+  ```
 - `GET /tasks/<id>`: Return specific task by ID.
 - `POST /tasks`: Add new task with POST request data. Return newly created task.
 - `DELETE /tasks/<id>`: Delete specific task by ID. Return deleted task.
