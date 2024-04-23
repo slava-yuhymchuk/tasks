@@ -20,7 +20,7 @@ def get_task(id):
 @app.route("/tasks", methods=["POST"])
 def add_task():
     tasks = tasks_be.read_file().get("Tasks",[])
-    ids = []
+    ids = [0]
     for task in tasks:
         ids.append(task["ID"])
     id = (max(ids))+1

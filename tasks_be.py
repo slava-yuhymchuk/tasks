@@ -5,13 +5,13 @@ file_name = "tasks.json"
 
 # Initialize with an empty JSON file if one still doesn't exist
 def create_file():
-    if not path.isfile(file_name):
         json_data = {"Tasks": []}
         write_file(json_data)
 
 # Read the contents of the JSON file
 def read_file():
-    create_file()
+    if not path.isfile(file_name):
+        create_file()
     json_file = open(file_name,"r")
     json_data = load(json_file)
     json_file.close()
