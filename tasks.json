@@ -1,19 +1,22 @@
 {
-    "tasks": [
+    "Tasks": [
         {
-            "id": 3,
-            "title": "call",
-            "details": "Sharon"
+            "ID": 3,
+            "Title": "call",
+            "Details": "Sharon",
+            "Status": "Done"
         },
         {
-            "id": 1,
-            "title": "buy",
-            "details": "milk"
+            "ID": 1,
+            "Title": "buy",
+            "Details": "milk",
+            "Status": "New"
         },
         {
-            "id": 2,
-            "title": "clean",
-            "details": "kitchen"
+            "ID": 2,
+            "Title": "clean",
+            "Details": "kitchen",
+            "Status": "New"
         }
     ]
 }
