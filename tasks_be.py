@@ -1,28 +1,33 @@
-import os
-import json
+from os import path
+from json import load, dump
 
 file_name = "tasks.json"
 
+# Initialize with an empty JSON file if one still doesn't exist
 def create_file():
-    if not os.path.isfile(file_name):
+    if not path.isfile(file_name):
         json_data = {"Tasks": []}
-        json_file = open(file_name, "w")
-        json.dump(json_data, json_file, indent=4)
-        json_file.close()
+        write_file(json_data)
 
+# Read the contents of the JSON file
 def read_file():
     create_file()
     json_file = open(file_name,"r")
-    json_data = json.load(json_file)
+    json_data = load(json_file)
     json_file.close()
     return json_data
 
-def write_file(tasks):
-    json_data = {"Tasks": tasks}
+# Overwrite the contents of the JSON file
+def write_file(json_data):
     json_file = open(file_name, "w")
-    json.dump(json_data, json_file, indent=4)
-    json_file.close() 
-    
+    dump(json_data, json_file, indent=4)
+    json_file.close()
+
+# Write tasks to the JSON file
+def write_tasks(tasks):
+    json_data = {"Tasks": tasks}
+    write_file(json_data)
+
 def delete_task(task_id):
     pass
 
