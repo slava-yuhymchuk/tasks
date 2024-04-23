@@ -21,7 +21,7 @@
   ```bash
   curl --request PUT --header "Content-Type: application/json" --data '{"Title":"updated title","Details":"updated details"}' http://localhost:5000/tasks
   ```
-- `PUT /tasks/<id>/done`: Change the status of specific task to "Done". Return completed task.
+- `POST /tasks/<id>/done`: Change the status of specific task to "Done". Return completed task.
   ```bash
   curl --request POST http://localhost:5000/tasks/1/done
   ```
