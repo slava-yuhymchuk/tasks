@@ -10,7 +10,7 @@ def create_file():
 
 # Read the contents of the JSON file.
 def read_file():
-    # Initialize with and empty JSON file if one still doesn't exist.
+    # Initialize with an empty JSON file if one still doesn't exist.
     if not path.isfile(file_name):
         create_file()
     json_file = open(file_name,"r")
