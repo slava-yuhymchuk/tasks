@@ -9,13 +9,13 @@
         {
             "ID": 1,
             "Title": "buy",
-            "Details": "milk",
+            "Details": "NVDA",
             "Status": "New"
         },
         {
             "ID": 2,
-            "Title": "clean",
-            "Details": "kitchen",
+            "Title": "practice",
+            "Details": "muscle-ups",
             "Status": "New"
         }
     ]
