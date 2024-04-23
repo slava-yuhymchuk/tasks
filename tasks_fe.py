@@ -44,8 +44,17 @@ def delete_task(id):
 
 # Update specific task with PUT request data. Return updated task.
 @app.route("/tasks/<int:id>", methods=["PUT"])
-def update_task(id, title, details):
-    pass
+def update_task(id):
+    task = get_task(id)
+    tasks = get_tasks()
+    title = request.json["Title"]
+    details = request.json["Details"]
+    status = request.json["Status"]
+    updated_task = {"ID": id, "Title": title, "Details": details, "Status": status}
+    tasks[tasks.index(task)] = updated_task
+    try: tasks_be.write_tasks(tasks)
+    except Exception as error: abort(500, error)
+    finally: return updated_task
 
 # Change the status of specific task to "Done". Return completed task.
 @app.route("/tasks/<int:id>/done", methods=["PUT"])
