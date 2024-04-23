@@ -59,7 +59,13 @@ def update_task(id):
 # Change the status of specific task to "Done". Return completed task.
 @app.route("/tasks/<int:id>/done", methods=["PUT"])
 def mark_done(id):
-    pass
+    task = get_task(id)
+    tasks = get_tasks()
+    completed_task = {"ID": task["ID"], "Title": task["Title"], "Details": task["Details"], "Status": "Done"}
+    tasks[tasks.index(task)] = completed_task
+    try: tasks_be.write_tasks(tasks)
+    except Exception as error: abort(500, error)
+    finally: return completed_task
 
 # Start over. Return empty task list.
 @app.route("/tasks/reset", methods=["POST"])
