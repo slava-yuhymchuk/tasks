@@ -3,13 +3,14 @@ from json import load, dump
 
 file_name = "tasks.json"
 
-# Initialize with an empty JSON file if one still doesn't exist
+# Create new empty JSON file
 def create_file():
         json_data = {"Tasks": []}
         write_file(json_data)
 
 # Read the contents of the JSON file
 def read_file():
+    # Initialize with and empty JSON file if one still doesn't exist
     if not path.isfile(file_name):
         create_file()
     json_file = open(file_name,"r")
@@ -28,15 +29,6 @@ def write_tasks(tasks):
     json_data = {"Tasks": tasks}
     write_file(json_data)
 
-def delete_task(task_id):
-    pass
-
-def update_task(task_id,task_name,task_details):
-    pass
-
-if __name__ == "__main__":
-    a = read_file()
-    print (a)
-
-#a = tasks.jsonify('"1": {"title":"buy","details":"milk"}')
-#a
+# if __name__ == "__main__":
+    # a = read_file()
+    # print (a)

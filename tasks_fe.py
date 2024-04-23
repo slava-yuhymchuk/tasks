@@ -32,12 +32,16 @@ def add_task():
     except Exception as error: abort(500, error)
     finally: return task
 
-@app.route("/tasks/<int:task_id>", methods=["POST"])
+@app.route("/tasks/<int:task_id>", methods=["DELETE"])
 def delete_task(id):
     pass
 
-@app.route("/tasks/<int:task_id>", methods=["POST"])
-def update_task(id):
+@app.route("/tasks/<int:task_id>", methods=["PUT"])
+def update_task(id, title, details):
+    pass
+
+@app.route("/tasks/<int:task_id>", methods=["PUT"])
+def mark_done(id):
     pass
 
 if __name__ == "__main__":
