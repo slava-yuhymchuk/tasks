@@ -52,5 +52,11 @@ def update_task(id, title, details):
 def mark_done(id):
     pass
 
+# Start over. Return empty task list.
+@app.route("/tasks/reset", methods=["POST"])
+def reset():
+    tasks_be.create_file()
+    return get_tasks()
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

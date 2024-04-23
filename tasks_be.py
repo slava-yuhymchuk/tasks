@@ -28,7 +28,3 @@ def write_file(json_data):
 def write_tasks(tasks):
     json_data = {"Tasks": tasks}
     write_file(json_data)
-
-# if __name__ == "__main__":
-    # a = read_file()
-    # print (a)
