@@ -16,7 +16,7 @@ def get_task(id):
     if task: return task
     else: abort(404)
 
-# Add new task from POST request data
+# Add new task with POST request data
 @app.route("/tasks", methods=["POST"])
 def add_task():
     tasks = tasks_be.read_file().get("Tasks",[])
@@ -32,14 +32,17 @@ def add_task():
     except Exception as error: abort(500, error)
     finally: return task
 
+# Delete specific task by ID
 @app.route("/tasks/<int:task_id>", methods=["DELETE"])
 def delete_task(id):
     pass
 
+# Update specific task with PUT request data
 @app.route("/tasks/<int:task_id>", methods=["PUT"])
 def update_task(id, title, details):
     pass
 
+# Change the status of specific task to "Done"
 @app.route("/tasks/<int:task_id>", methods=["PUT"])
 def mark_done(id):
     pass
