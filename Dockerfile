@@ -1,19 +1,19 @@
-# start by pulling the python image
+# Pull the image
 FROM python:alpine
 
-# switch working directory
+# Set working directory
 WORKDIR /tasks
 
-# copy the project files into the image
+# Copy project files into the image
 COPY requirements.txt .
 COPY tasks.json .
 COPY tasks_be.py .
 COPY tasks_fe.py .
 
-# install the dependencies and packages in the requirements file
+# Install required packages
 RUN pip install -r requirements.txt
 
-# configure the container to run in an executed manner
-#ENTRYPOINT ["python3"]
+# Configure the container to run
+# ENTRYPOINT ["python3"]
 CMD ["python3", "tasks_fe.py"]
 EXPOSE 5000
