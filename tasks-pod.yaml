@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tasks
+  labels:
+    app: tasks
+spec:
+  containers:
+  - name: tasks
+    image: slavayuhymchuk/tasks:latest
+    
