@@ -34,4 +34,3 @@ spec:
   selector:
     app: tasks
   type: LoadBalancer
-
