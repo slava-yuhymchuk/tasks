@@ -32,10 +32,9 @@ def chatgpt(prompt):
             {"role": "user", "content": user_content}
         ]
     }
-
-    response = requests.post(URL, headers=headers, json=payload)
-    response = response.json()
-
+    
+    response = requests.post(URL, headers=headers, json=payload).json()
+    return(response['choices'][0]['message']['content'])
+    
     # print(response)
     # print(response['choices'][0]['message']['content'])
-    return(response['choices'][0]['message']['content'])

@@ -78,7 +78,8 @@ def reset():
 @app.route("/tasks/<int:id>/ai", methods=["GET"])
 def ai(id):
     prompt = get_task(id)["Title"] + " " + get_task(id)["Details"]
-    return tasks_ai.chatgpt(prompt)
+    try: return tasks_ai.chatgpt(prompt)
+    except Exception as error: abort(400, error)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
