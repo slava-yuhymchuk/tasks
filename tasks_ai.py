@@ -1,11 +1,12 @@
 import requests
+from os import environ
 
 def chatgpt(prompt):
     # OpenAI connection configuration
     URL = "https://api.openai.com/v1/chat/completions"
-    api_key = ""
-    org = "org-goqFwnv5sW4plmQEpzT0jGGP"
-    proj = "proj_EONnVwquY5PccBIoLO2Y4f1l"
+    api_key = environ["OPENAI_API_KEY"]
+    org = environ["OPENAI_ORG"]
+    proj = environ["OPENAI_PROJ"]
 
     # AI model configuration
     model = "gpt-3.5-turbo"
@@ -35,6 +36,3 @@ def chatgpt(prompt):
     
     response = requests.post(URL, headers=headers, json=payload).json()
     return(response['choices'][0]['message']['content'])
-    
-    # print(response)
-    # print(response['choices'][0]['message']['content'])

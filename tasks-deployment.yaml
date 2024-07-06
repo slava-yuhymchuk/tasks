@@ -19,6 +19,9 @@ spec:
         image: slavayuhymchuk/tasks:latest
         ports:
         - containerPort: 5000
+        envFrom:
+        - secretRef:
+            name: secret-openai
 ---
 apiVersion: v1
 kind: Service

@@ -9,6 +9,7 @@ COPY requirements.txt .
 COPY tasks.json .
 COPY tasks_be.py .
 COPY tasks_fe.py .
+COPY tasks_ai.py .
 
 # Install required packages
 RUN pip install -r requirements.txt
