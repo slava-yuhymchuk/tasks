@@ -17,6 +17,10 @@ spec:
       containers:
       - name: tasks
         image: slavayuhymchuk/tasks:1.1
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1024Mi"
         ports:
         - containerPort: 80
         envFrom:
