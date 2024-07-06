@@ -16,9 +16,9 @@ spec:
     spec:
       containers:
       - name: tasks
-        image: slavayuhymchuk/tasks:latest
+        image: slavayuhymchuk/tasks:1.1
         ports:
-        - containerPort: 5000
+        - containerPort: 80
         envFrom:
         - secretRef:
             name: secret-openai
@@ -31,9 +31,9 @@ metadata:
   name: tasks
 spec:
   ports:
-  - port: 5000
+  - port: 80
     protocol: TCP
-    targetPort: 5000
+    targetPort: 80
   selector:
     app: tasks
   type: LoadBalancer

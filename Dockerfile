@@ -17,4 +17,4 @@ RUN pip install -r requirements.txt
 # Configure the container to run
 # ENTRYPOINT ["python3"]
 CMD ["python3", "tasks_fe.py"]
-EXPOSE 5000
+EXPOSE 80
