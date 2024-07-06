@@ -1,5 +1,6 @@
 from flask import Flask, request, abort
 import tasks_be
+import tasks_ai
 
 app = Flask(__name__)
 
@@ -72,6 +73,12 @@ def mark_done(id):
 def reset():
     tasks_be.create_file()
     return get_tasks()
+
+# Ask ChatGPT to assist with specific task. ;)
+@app.route("/tasks/<int:id>/ai", methods=["GET"])
+def ai(id):
+    prompt = get_task(id)["Title"] + " " + get_task(id)["Details"]
+    return tasks_ai.chatgpt(prompt)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
