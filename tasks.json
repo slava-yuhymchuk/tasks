@@ -2,19 +2,19 @@
     "Tasks": [
         {
             "ID": 3,
-            "Title": "call",
+            "Title": "Call",
             "Details": "Sharon",
             "Status": "Done"
         },
         {
             "ID": 1,
-            "Title": "buy",
-            "Details": "NVDA",
+            "Title": "Buy",
+            "Details": "NVDA stocks",
             "Status": "New"
         },
         {
             "ID": 2,
-            "Title": "practice",
+            "Title": "Practice",
             "Details": "muscle-ups",
             "Status": "New"
         }

@@ -1,22 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tasks
+  name: tasks-fe
   labels:
-    app: tasks
+    app: tasks-fe
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      app: tasks
+      app: tasks-fe
   template:
     metadata:
       labels:
-        app: tasks
+        app: tasks-fe
     spec:
       containers:
-      - name: tasks
-        image: slavayuhymchuk/tasks:1.1
+      - name: tasks-fe
+        image: slavayuhymchuk/tasks_fe:1.0
+        imagePullPolicy: Always
         resources:
           limits:
             cpu: "1"
@@ -31,13 +32,13 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: tasks
-  name: tasks
+    app: tasks-fe
+  name: tasks-fe
 spec:
   ports:
   - port: 80
     protocol: TCP
     targetPort: 80
   selector:
-    app: tasks
+    app: tasks-fe
   type: LoadBalancer

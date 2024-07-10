@@ -1,13 +1,18 @@
 from flask import Flask, request, abort
-import tasks_be
+import requests
 import tasks_ai
 
 app = Flask(__name__)
 
+# BE_URL = "http://localhost:5000/be"
+BE_URL = "http://tasks-be:5000/be"
+
 # Return all tasks.
 @app.route("/tasks", methods=["GET"])
 def get_tasks():
-    tasks = tasks_be.read_file().get("Tasks",[])
+    URL = BE_URL + "/read_file"
+    response = requests.get(URL).json()
+    tasks = response.get("Tasks",[])
     return tasks
 
 # Return specific task by ID.
@@ -29,9 +34,12 @@ def add_task():
     details = request.json["Details"]
     task = {"ID": id, "Title": title, "Details": details, "Status": "New"}
     tasks.append(task)
-    try: tasks_be.write_tasks(tasks)
+    URL = BE_URL + "/write_tasks"
+    headers = {"Content-Type": "application/json"}
+    try: 
+        requests.post(URL, headers=headers, json=tasks)
+        return task
     except Exception as error: abort(500, error)
-    finally: return task
 
 # Delete specific task by ID. Return deleted task.
 @app.route("/tasks/<int:id>", methods=["DELETE"])
@@ -39,9 +47,12 @@ def delete_task(id):
     task = get_task(id)
     tasks = get_tasks()
     tasks = [task for task in tasks if task["ID"] != id]
-    try: tasks_be.write_tasks(tasks)
+    URL = BE_URL + "/write_tasks"
+    headers = {"Content-Type": "application/json"}
+    try: 
+        requests.post(URL, headers=headers, json=tasks)
+        return task
     except Exception as error: abort(500, error)
-    finally: return task
 
 # Update specific task with PUT request data. Return updated task.
 @app.route("/tasks/<int:id>", methods=["PUT"])
@@ -53,9 +64,12 @@ def update_task(id):
     status = request.json["Status"]
     updated_task = {"ID": id, "Title": title, "Details": details, "Status": status}
     tasks[tasks.index(task)] = updated_task
-    try: tasks_be.write_tasks(tasks)
+    URL = BE_URL + "/write_tasks"
+    headers = {"Content-Type": "application/json"} 
+    try: 
+        requests.post(URL, headers=headers, json=tasks)
+        return updated_task
     except Exception as error: abort(500, error)
-    finally: return updated_task
 
 # Change the status of specific task to "Done". Return completed task.
 @app.route("/tasks/<int:id>/done", methods=["POST"])
@@ -64,15 +78,21 @@ def mark_done(id):
     tasks = get_tasks()
     completed_task = {"ID": task["ID"], "Title": task["Title"], "Details": task["Details"], "Status": "Done"}
     tasks[tasks.index(task)] = completed_task
-    try: tasks_be.write_tasks(tasks)
+    URL = BE_URL + "/write_tasks"
+    headers = {"Content-Type": "application/json"} 
+    try: 
+        requests.post(URL, headers=headers, json=tasks)
+        return completed_task
     except Exception as error: abort(500, error)
-    finally: return completed_task
 
 # Start over. Return empty task list.
 @app.route("/tasks/reset", methods=["POST"])
 def reset():
-    tasks_be.create_file()
-    return get_tasks()
+    URL = BE_URL + "/create_file"
+    try: 
+        requests.post(URL)
+        return get_tasks()
+    except Exception as error: abort(500, error)
 
 # Ask ChatGPT to assist with specific task. ;)
 @app.route("/tasks/<int:id>/ai", methods=["GET"])

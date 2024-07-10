@@ -34,5 +34,6 @@ def chatgpt(prompt):
         ]
     }
     
+    # Invoke POST request to ChatGPT and return the response message
     response = requests.post(URL, headers=headers, json=payload).json()
     return(response['choices'][0]['message']['content'])

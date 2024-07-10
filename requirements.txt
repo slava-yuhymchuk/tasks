@@ -10,7 +10,6 @@ httpx
 itsdangerous
 Jinja2
 MarkupSafe
-openai
 pydantic
 pydantic_core
 requests
