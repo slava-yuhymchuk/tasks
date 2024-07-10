@@ -29,7 +29,7 @@
   ```bash
   curl --request POST http://localhost/tasks/reset
   ```
-  - `POST /tasks/<id>/ai`: Ask ChatGPT to assist with specific task. ;)
+- `POST /tasks/<id>/ai`: Ask ChatGPT to assist with specific task. ;)
   ```bash
   curl --request POST http://localhost/tasks/2/ai
   ```
