@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tasks-fe
+  labels:
+    app: tasks-fe
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: tasks-fe
+  template:
+    metadata:
+      labels:
+        app: tasks-fe
+    spec:
+      containers:
+      - name: tasks-fe
+        image: slavayuhymchuk/tasks_fe:1.0
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "1"
+            memory: "1024Mi"
+        ports:
+        - containerPort: 80
+        envFrom:
+        - secretRef:
+            name: secret-openai
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: tasks-fe
+  name: tasks-fe
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: tasks-fe
+  type: LoadBalancer
