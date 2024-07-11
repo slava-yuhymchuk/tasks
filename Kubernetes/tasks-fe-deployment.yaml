@@ -1,7 +1,15 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tasks
+  labels:
+    name: tasks
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tasks-fe
+  namespace: tasks
   labels:
     app: tasks-fe
 spec:
@@ -34,6 +42,7 @@ metadata:
   labels:
     app: tasks-fe
   name: tasks-fe
+  namespace: tasks
 spec:
   ports:
   - port: 80
