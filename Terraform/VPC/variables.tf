@@ -21,7 +21,7 @@ variable "env" {
 variable "vpc_name" {
   description = "VPC name"
   type        = string
-  default     = "vpc"
+  default     = "vpc-dev"
 }
 
 variable "cidr" {

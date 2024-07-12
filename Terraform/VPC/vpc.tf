@@ -9,7 +9,7 @@ provider "aws" {
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = var.vpc_name
+  name = "vpc-${var.env}"
   cidr = var.cidr
 
   azs             = var.azs
