@@ -1,9 +1,20 @@
 
-# Configure the AWS Provider
+# Configure AWS provider
 provider "aws" {
-  region = "il-central-1"
-  #shared_config_files = ["~/.aws/config"]
-  #shared_credentials_files = ["~/.aws/credentials"]
-  profile = "slava"
+  profile = var.profile
+  region  = var.region
 }
 
+# Configure VPC module
+module "vpc" {
+  source = "terraform-aws-modules/vpc/aws"
+
+  name = var.vpc_name
+  cidr = var.cidr
+
+  azs             = var.azs
+  private_subnets = var.private_subnets
+  public_subnets  = var.public_subnets
+
+  enable_nat_gateway = true
+}
