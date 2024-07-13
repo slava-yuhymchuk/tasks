@@ -32,9 +32,9 @@ module "eks" {
       ami_type       = var.ami_type
       instance_types = var.instance_types
 
-      min_size     = 6
-      max_size     = 10
-      desired_size = 6
+      min_size     = var.min_size
+      max_size     = var.max_size
+      desired_size = var.desired_size
     }
   }
 
@@ -42,11 +42,11 @@ module "eks" {
 }
 
 resource "aws_security_group_rule" "sealed-secrets-access" {
-  type              = "ingress"
-  from_port         = 8080
-  to_port           = 8080
-  protocol          = "tcp"
-  security_group_id = module.eks.node_security_group_id
-   source_security_group_id = module.eks.cluster_security_group_id
-  description = "Allow inbound traffic to sealed-secrets controller"
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = module.eks.node_security_group_id
+  source_security_group_id = module.eks.cluster_security_group_id
+  description              = "Allow inbound traffic to sealed-secrets controller"
 }

@@ -59,3 +59,21 @@ variable "ami_type" {
   type        = string
   default     = "AL2023_x86_64_STANDARD"
 }
+
+variable "min_size" {
+  description = "Minimum number of nodes"
+  type        = number
+  default     = 3
+}
+
+variable "max_size" {
+  description = "Maximum number of nodes"
+  type        = number
+  default     = 6
+}
+
+variable "desired_size" {
+  description = "Desired number of nodes"
+  type        = number
+  default     = 3
+}
