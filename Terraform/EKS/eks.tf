@@ -24,17 +24,17 @@ module "eks" {
   subnet_ids = var.subnet_ids
 
   eks_managed_node_group_defaults = {
-    instance_types = ["t3.micro"]
+    instance_types = var.instance_types
   }
 
   eks_managed_node_groups = {
     (var.cluster_name) = {
-      ami_type       = "AL2023_x86_64_STANDARD"
-      instance_types = ["t3.micro"]
+      ami_type       = var.ami_type
+      instance_types = var.instance_types
 
-      min_size     = 3
+      min_size     = 6
       max_size     = 10
-      desired_size = 3
+      desired_size = 6
     }
   }
 

@@ -47,3 +47,15 @@ variable "subnet_ids" {
   type        = list(string)
   default     = null
 }
+
+variable "instance_types" {
+  description = "A list of instance types for cluster nodes"
+  type        = list(string)
+  default     = ["t3.micro"]
+}
+
+variable "ami_type" {
+  description = "AMI type for cluster nodes"
+  type        = string
+  default     = "AL2023_x86_64_STANDARD"
+}
