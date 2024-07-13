@@ -1,4 +1,3 @@
-
 # Configure AWS provider
 provider "aws" {
   profile = var.profile
