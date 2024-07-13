@@ -40,3 +40,13 @@ module "eks" {
 
   enable_cluster_creator_admin_permissions = true
 }
+
+resource "aws_security_group_rule" "sealed-secrets-access" {
+  type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+  security_group_id = module.eks.node_security_group_id
+   source_security_group_id = module.eks.cluster_security_group_id
+  description = "Allow inbound traffic to sealed-secrets controller"
+}
