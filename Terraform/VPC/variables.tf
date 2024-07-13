@@ -47,3 +47,21 @@ variable "public_subnets" {
   type        = list(string)
   default     = ["10.0.10.0/24", "10.0.20.0/24", "10.0.30.0/24"]
 }
+
+variable "enable_nat_gateway" {
+  description = "Create NAT gateway for private networks"
+  type        = bool
+  default     = true
+}
+
+variable "single_nat_gateway" {
+  description = "Create single NAT gateway shared across all private networks"
+  type        = bool
+  default     = true
+}
+
+variable "one_nat_gateway_per_az" {
+  description = "Create one NAT gateway per availability zone"
+  type        = bool
+  default     = false
+}
