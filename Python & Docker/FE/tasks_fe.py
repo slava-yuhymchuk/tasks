@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, render_template, jsonify
 import requests
 import tasks_ai
 
@@ -7,13 +7,19 @@ app = Flask(__name__)
 # BE_URL = "http://localhost:5000/be"
 BE_URL = "http://tasks-be:5000/be"
 
+@app.route("/")
+def index():
+    return render_template("index.html")
+
 # Return all tasks.
 @app.route("/tasks", methods=["GET"])
 def get_tasks():
     URL = BE_URL + "/read_file"
     response = requests.get(URL).json()
     tasks = response.get("Tasks",[])
-    return tasks
+    print (tasks)
+    # return tasks
+    return jsonify(tasks=tasks)
 
 # Return specific task by ID.
 @app.route("/tasks/<int:id>", methods=["GET"])

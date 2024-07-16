@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function fetchTasks() {
+            fetch('/tasks')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector('tbody');
+                    tbody.innerHTML = '';
+                    data.tasks.forEach(task => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${task.ID}</td>
+                            <td>${task.Title}</td>
+                            <td>${task.Details}</td>
+                            <td>${task.Status}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching tasks:', error));
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <button onclick="fetchTasks()">Get Tasks</button>
+            <!-- Add more buttons for other functions here -->
+        </div>
+        <div class="content">
+            <h1>Tasks</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Details</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Tasks will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
