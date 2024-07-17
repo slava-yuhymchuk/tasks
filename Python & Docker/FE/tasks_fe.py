@@ -4,7 +4,7 @@ import tasks_ai
 
 app = Flask(__name__)
 
-# BE_URL = "http://localhost:5000/be"
+# BE_URL = "http://localhost:5000/be"a
 BE_URL = "http://tasks-be:5000/be"
 
 @app.route("/")
@@ -17,8 +17,6 @@ def get_tasks():
     URL = BE_URL + "/read_file"
     response = requests.get(URL).json()
     tasks = response.get("Tasks",[])
-    print (tasks)
-    # return tasks
     return jsonify(tasks=tasks)
 
 # Return specific task by ID.

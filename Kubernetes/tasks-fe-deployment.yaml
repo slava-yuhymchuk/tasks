@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: tasks-fe
-        image: slavayuhymchuk/tasks_fe:1.0
+        image: slavayuhymchuk/tasks_fe:1.1
         imagePullPolicy: Always
         resources:
           requests:
