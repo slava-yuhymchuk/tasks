@@ -25,12 +25,14 @@ module "eks" {
 
   eks_managed_node_group_defaults = {
     instance_types = var.instance_types
+    capacity_type = var.capacity_type
   }
 
   eks_managed_node_groups = {
     (var.cluster_name) = {
       ami_type       = var.ami_type
       instance_types = var.instance_types
+      capacity_type = var.capacity_type
 
       min_size     = var.min_size
       max_size     = var.max_size

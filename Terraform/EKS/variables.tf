@@ -54,6 +54,12 @@ variable "instance_types" {
   default     = ["t3.micro"]
 }
 
+variable "capacity_type" {
+  description = "Type of capacity for the cluster nodes (ON_DEMAND, SPOT)"
+  type        = string
+  default     = "ON_DEMAND"
+}
+
 variable "ami_type" {
   description = "AMI type for cluster nodes"
   type        = string
