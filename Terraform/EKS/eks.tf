@@ -14,10 +14,10 @@ module "eks" {
   cluster_endpoint_public_access = var.cluster_endpoint_public_access
 
   cluster_addons = {
-    coredns                = {}
+    coredns = {}
     # eks-pod-identity-agent = {}
-    kube-proxy             = {}
-    vpc-cni                = {}
+    kube-proxy = {}
+    vpc-cni    = {}
   }
 
   vpc_id     = var.vpc_id
@@ -25,14 +25,14 @@ module "eks" {
 
   eks_managed_node_group_defaults = {
     instance_types = var.instance_types
-    capacity_type = var.capacity_type
+    capacity_type  = var.capacity_type
   }
 
   eks_managed_node_groups = {
     (var.cluster_name) = {
       ami_type       = var.ami_type
       instance_types = var.instance_types
-      capacity_type = var.capacity_type
+      capacity_type  = var.capacity_type
 
       min_size     = var.min_size
       max_size     = var.max_size

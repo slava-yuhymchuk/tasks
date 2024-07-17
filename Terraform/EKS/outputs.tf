@@ -2,12 +2,12 @@
 
 output "cluster_name" {
   description = "Cluster name"
-  value = module.eks.cluster_name
+  value       = module.eks.cluster_name
 }
 
 output "cluster_id" {
   description = "Cluster ID"
-  value = module.eks.cluster_id
+  value       = module.eks.cluster_id
 }
 
 output "cluster_version" {
