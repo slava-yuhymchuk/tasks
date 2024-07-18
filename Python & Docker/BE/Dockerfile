@@ -4,13 +4,13 @@ FROM python:alpine
 # Set working directory
 WORKDIR /tasks
 
+# Install required packages
+RUN pip install -r requirements.txt
+
 # Copy project files into the image
 COPY requirements.txt .
 COPY tasks.json .
 COPY tasks_be.py .
-
-# Install required packages
-RUN pip install -r requirements.txt
 
 # Configure the container to run
 CMD ["python3", "tasks_be.py"]
