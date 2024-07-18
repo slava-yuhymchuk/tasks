@@ -9,7 +9,7 @@ def chatgpt(prompt):
     proj = environ["OPENAI_PROJ"]
 
     # AI model configuration
-    model = "gpt-3.5-turbo"
+    model = "gpt-4o-mini"
     temperature = 0.2
 
     # Chat roles configuration
