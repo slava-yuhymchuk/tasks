@@ -10,12 +10,18 @@
             "ID": 1,
             "Title": "Buy",
             "Details": "NVDA stocks",
-            "Status": "New"
+            "Status": "Done"
         },
         {
             "ID": 2,
             "Title": "Practice",
             "Details": "muscle-ups",
+            "Status": "New"
+        },
+        {
+            "ID": 4,
+            "Title": "Write Jenkins CI/CD pipeline",
+            "Details": "Should have at least Checkout, Build, Test and Deploy stages",
             "Status": "New"
         }
     ]
