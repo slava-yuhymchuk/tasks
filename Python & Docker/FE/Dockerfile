@@ -5,10 +5,10 @@ FROM python:alpine
 WORKDIR /tasks
 
 # Install required packages
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Copy project files into the image
-COPY requirements.txt .
 COPY tasks_fe.py .
 COPY tasks_ai.py .
 RUN mkdir -p /tasks/static
