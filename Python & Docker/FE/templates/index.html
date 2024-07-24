@@ -6,6 +6,13 @@
     <title>Task Management</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script>
+        document.addEventListener("DOMContentLoaded", fetchTasks);
+        document.addEventListener("click", function(event) {
+            if (!event.target.matches('.dropdown button')) {
+                hideDropdowns();
+            }
+        });
+
         function fetchTasks() {
             fetch('/tasks')
                 .then(response => response.json())
@@ -15,33 +22,231 @@
                     data.tasks.forEach(task => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td>${task.ID}</td>
                             <td>${task.Title}</td>
                             <td>${task.Details}</td>
                             <td>${task.Status}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button onclick="toggleDropdown(${task.ID}, event)">...</button>
+                                    <div id="dropdown-${task.ID}" class="dropdown-content">
+                                        <a href="#" onclick="markTaskDone(${task.ID})">Done!</a>
+                                        <a href="#" onclick="showUpdateTaskForm(${task.ID})">Update</a>
+                                        <a href="#" onclick="deleteTask(${task.ID})">Delete</a>
+                                    </div>
+                                </div>
+                            </td>
                         `;
                         tbody.appendChild(row);
                     });
                 })
                 .catch(error => console.error('Error fetching tasks:', error));
         }
+
+        function hideDropdowns() {
+            document.querySelectorAll('.dropdown-content').forEach(el => el.style.display = 'none');
+        }
+
+        function toggleDropdown(id, event) {
+            const dropdown = document.getElementById(`dropdown-${id}`);
+            const isVisible = dropdown.style.display === 'block';
+            hideDropdowns();
+            dropdown.style.display = isVisible ? 'none' : 'block';
+            event.stopPropagation();
+        }
+
+        function markTaskDone(id) {
+            fetch(`/tasks/${id}/done`, {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(() => fetchTasks())
+            .catch(error => console.error('Error marking task as done:', error));
+        }
+
+        function deleteTask(id) {
+            fetch(`/tasks/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(() => fetchTasks())
+            .catch(error => console.error('Error deleting task:', error));
+        }
+
+        function showNewTaskForm() {
+            document.getElementById('taskForm').reset();
+            document.getElementById('taskModal').style.display = 'block';
+            document.getElementById('taskFormButton').textContent = 'Add Task';
+            document.getElementById('taskForm').onsubmit = addTask;
+        }
+
+        function hideTaskForm() {
+            document.getElementById('taskModal').style.display = 'none';
+        }
+
+        function addTask(event) {
+            event.preventDefault();
+            const title = document.getElementById('taskTitle').value;
+            const details = document.getElementById('taskDetails').value;
+            fetch('/tasks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ Title: title, Details: details })
+            })
+            .then(response => response.json())
+            .then(() => {
+                hideTaskForm();
+                fetchTasks();
+            })
+            .catch(error => console.error('Error adding task:', error));
+        }
+
+        function showUpdateTaskForm(id) {
+            fetch(`/tasks/${id}`)
+                .then(response => response.json())
+                .then(task => {
+                    document.getElementById('taskTitle').value = task.Title;
+                    document.getElementById('taskDetails').value = task.Details;
+                    document.getElementById('taskId').value = task.ID;
+                    document.getElementById('taskModal').style.display = 'block';
+                    document.getElementById('taskFormButton').textContent = 'Update Task';
+                    document.getElementById('taskForm').onsubmit = function(event) {
+                        updateTask(event, id);
+                    };
+                })
+                .catch(error => console.error('Error fetching task:', error));
+        }
+
+        function updateTask(event, id) {
+            event.preventDefault();
+            const title = document.getElementById('taskTitle').value;
+            const details = document.getElementById('taskDetails').value;
+            fetch(`/tasks/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ Title: title, Details: details, Status: 'New' })
+            })
+            .then(response => response.json())
+            .then(() => {
+                hideTaskForm();
+                fetchTasks();
+            })
+            .catch(error => console.error('Error updating task:', error));
+        }
     </script>
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {background-color: #f1f1f1}
+        
+        /* Modal styles */
+        #taskModal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+        .sidebar {
+            float: left;
+            width: 20%;
+        }
+        .content {
+            float: left;
+            width: 75%;
+            margin-left: 5%;
+        }
+        .sidebar button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
+    <div id="taskModal">
+        <div class="modal-content">
+            <span class="close" onclick="hideTaskForm()">&times;</span>
+            <h2>Task</h2>
+            <form id="taskForm" onsubmit="addTask(event)">
+                <label for="taskTitle">Title:</label>
+                <input type="text" id="taskTitle" name="Title" required><br><br>
+                <label for="taskDetails">Details:</label>
+                <textarea id="taskDetails" name="Details" required></textarea><br><br>
+                <input type="hidden" id="taskId" name="ID">
+                <button id="taskFormButton" type="submit">Add Task</button>
+            </form>
+        </div>
+    </div>
+
     <div class="container">
         <div class="sidebar">
-            <button onclick="fetchTasks()">Get Tasks</button>
-            <!-- Add more buttons for other functions here -->
+            <button onclick="showNewTaskForm()">New Task</button>
         </div>
         <div class="content">
             <h1>Tasks</h1>
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Title</th>
                         <th>Details</th>
                         <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -1,28 +1,28 @@
 {
     "Tasks": [
         {
-            "ID": 3,
-            "Title": "Call",
-            "Details": "Sharon",
-            "Status": "Done"
-        },
-        {
-            "ID": 1,
-            "Title": "Buy",
             "Details": "NVDA stocks",
-            "Status": "Done"
+            "ID": 1,
+            "Status": "Done",
+            "Title": "Buy"
         },
         {
-            "ID": 2,
-            "Title": "Practice",
             "Details": "muscle-ups",
-            "Status": "New"
+            "ID": 2,
+            "Status": "New",
+            "Title": "Practice"
         },
         {
-            "ID": 4,
-            "Title": "Write Jenkins CI/CD pipeline",
+            "Details": "Sharon",
+            "ID": 3,
+            "Status": "Done",
+            "Title": "Call"
+        },
+        {
             "Details": "Should have at least Checkout, Build, Test and Deploy stages",
-            "Status": "New"
+            "ID": 4,
+            "Status": "New",
+            "Title": "Write Jenkins CI/CD pipeline"
         }
     ]
 }
