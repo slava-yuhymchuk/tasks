@@ -6,8 +6,7 @@
     <title>Task Management</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script>
-        /* VERSION */
-        const version = "v1.1"; 
+        const version = "v1.1";
 
         document.addEventListener("DOMContentLoaded", () => {
             fetchTasks();
@@ -29,9 +28,6 @@
                     data.tasks.forEach(task => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td>${task.Title}</td>
-                            <td>${task.Details}</td>
-                            <td>${task.Status}</td>
                             <td>
                                 <div class="dropdown">
                                     <button onclick="toggleDropdown(${task.ID}, event)">...</button>
@@ -43,6 +39,9 @@
                                     </div>
                                 </div>
                             </td>
+                            <td>${task.Title}</td>
+                            <td>${task.Details}</td>
+                            <td>${task.Status}</td>
                         `;
                         tbody.appendChild(row);
                     });
@@ -185,6 +184,24 @@
         }
         .dropdown-content a:hover {background-color: #f1f1f1}
         
+        .dropdown button {
+            border: none;
+            background-color: #f9f9f9;
+            color: black;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .dropdown button:hover {
+        background-color: #ddd;
+        }
+
         /* Modal styles */
         #taskModal, #chatGPTModal {
             display: none;
@@ -234,8 +251,9 @@
         }
         .content {
             float: left;
-            width: 75%;
-            margin-left: 5%;
+            width: 70%;
+            margin-left: 2.5%;
+            margin-right: 2.5%;
         }
         .sidebar button {
             display: block;
@@ -280,10 +298,10 @@
             <table>
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Title</th>
                         <th>Details</th>
                         <th>Status</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
