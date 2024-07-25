@@ -1,3 +1,4 @@
+# v1.0
 from flask import Flask, request, make_response, abort
 from os import path
 from json import load, dump

@@ -1,11 +1,12 @@
+# v1.1
 from flask import Flask, request, abort, render_template, jsonify
 import requests
 import tasks_ai
 
 app = Flask(__name__)
 
-BE_URL = "http://localhost:5000/be"
-# BE_URL = "http://tasks-be:5000/be"
+# BE_URL = "http://localhost:5000/be"
+BE_URL = "http://tasks-be:5000/be"
 
 @app.route("/")
 def home():
@@ -125,4 +126,4 @@ def ai(id):
     except Exception as error: abort(400, error)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5080)
+    app.run(host="0.0.0.0", port=80)
