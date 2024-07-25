@@ -12,8 +12,10 @@ RUN pip install -r requirements.txt
 COPY tasks_fe.py .
 COPY tasks_ai.py .
 RUN mkdir -p /tasks/static
+RUN mkdir -p /tasks/static/images
 RUN mkdir -p /tasks/templates
 COPY static/styles.css /tasks/static/
+COPY static/images/logo.png /tasks/static/images/
 COPY templates/index.html /tasks/templates/
 
 # Configure the container to run
