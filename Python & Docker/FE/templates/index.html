@@ -139,13 +139,18 @@
         }
 
         function askChatGPT(id) {
+            document.getElementById('chatGPTResponse').innerText = 'Waiting on response from ChatGPT...';
+            document.getElementById('chatGPTModal').style.display = 'block';
+
             fetch(`/tasks/${id}/ai`)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('chatGPTResponse').innerText = data;
-                    document.getElementById('chatGPTModal').style.display = 'block';
                 })
-                .catch(error => console.error('Error asking ChatGPT:', error));
+                .catch(error => {
+                    document.getElementById('chatGPTResponse').innerText = 'Error fetching response from ChatGPT';
+                    console.error('Error asking ChatGPT:', error);
+                });
         }
 
         function hideChatGPTModal() {
@@ -253,7 +258,7 @@
         <div class="modal-content">
             <span class="close" onclick="hideChatGPTModal()">&times;</span>
             <h2>ChatGPT response:</h2>
-            <p id="chatGPTResponse"></p>
+            <p id="chatGPTResponse">Waiting on response from ChatGPT...</p>
         </div>
     </div>
 
