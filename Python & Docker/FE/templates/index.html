@@ -32,6 +32,7 @@
                                         <a href="#" onclick="markTaskDone(${task.ID})">Done!</a>
                                         <a href="#" onclick="showUpdateTaskForm(${task.ID})">Update</a>
                                         <a href="#" onclick="deleteTask(${task.ID})">Delete</a>
+                                        <a href="#" onclick="askChatGPT(${task.ID})">Ask ChatGPT</a>
                                     </div>
                                 </div>
                             </td>
@@ -136,6 +137,20 @@
             })
             .catch(error => console.error('Error updating task:', error));
         }
+
+        function askChatGPT(id) {
+            fetch(`/tasks/${id}/ai`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('chatGPTResponse').innerText = data;
+                    document.getElementById('chatGPTModal').style.display = 'block';
+                })
+                .catch(error => console.error('Error asking ChatGPT:', error));
+        }
+
+        function hideChatGPTModal() {
+            document.getElementById('chatGPTModal').style.display = 'none';
+        }
     </script>
     <style>
         .dropdown {
@@ -159,7 +174,7 @@
         .dropdown-content a:hover {background-color: #f1f1f1}
         
         /* Modal styles */
-        #taskModal {
+        #taskModal, #chatGPTModal {
             display: none;
             position: fixed;
             z-index: 1;
@@ -231,6 +246,14 @@
                 <input type="hidden" id="taskId" name="ID">
                 <button id="taskFormButton" type="submit">Add Task</button>
             </form>
+        </div>
+    </div>
+
+    <div id="chatGPTModal">
+        <div class="modal-content">
+            <span class="close" onclick="hideChatGPTModal()">&times;</span>
+            <h2>ChatGPT response:</h2>
+            <p id="chatGPTResponse"></p>
         </div>
     </div>
 
