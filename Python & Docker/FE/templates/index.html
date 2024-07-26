@@ -6,6 +6,7 @@
     <title>Task Management</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script>
+        /* VERSION */
         const version = "v1.1";
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -28,7 +29,7 @@
                     data.tasks.forEach(task => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td>
+                            <td class="actions-column">
                                 <div class="dropdown">
                                     <button onclick="toggleDropdown(${task.ID}, event)">...</button>
                                     <div id="dropdown-${task.ID}" class="dropdown-content">
@@ -206,7 +207,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Tasks will be populated here -->
                 </tbody>
             </table>
         </div>
