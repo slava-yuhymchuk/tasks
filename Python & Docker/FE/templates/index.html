@@ -146,7 +146,7 @@
         }
 
         function askChatGPT(id) {
-            document.getElementById('chatGPTResponse').innerText = 'Waiting on response from ChatGPT...';
+            document.getElementById('chatGPTResponse').innerText = 'Waiting for response from ChatGPT...';
             document.getElementById('chatGPTModal').style.display = 'block';
 
             fetch(`/tasks/${id}/ai`)
