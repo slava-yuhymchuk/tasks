@@ -1,4 +1,2 @@
 *.yaml linguist-detectable=true
 *.yaml linguist-language=YAML
-*Jenkinsfile linguist-detectable=true
-*Jenkinsfile linguist-language=Jenkinsfile
