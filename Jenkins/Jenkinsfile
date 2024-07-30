@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         // CODE_CNANGE = getGitChanges()
-        VERSION = "1.1" // to get from code
+        VERSION = "1.1"
     }
     stages {
         stage ("Build") {
