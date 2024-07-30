@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         // CODE_CNANGE = getGitChanges()
-        VERSION = "1.1"
+        VERSION = "1.1" // to get from code
     }
     stages {
         stage ("Build") {
@@ -27,11 +27,12 @@ pipeline {
             steps {
                 withCredentials([
                     usernamePassword(credentials: "dockerhub-accesstoken", usernameVariable: USER, passwordVariable: PWD)
+                ]) {
                     echo "Pushing version ${VERSION} to Docker Hub"
                     // sh "docker login"
                     // sh "docker push slavayuhymchuk/tasks_fe:${VERSION}"
                     // sh "docker push slavayuhymchuk/tasks_fe:latest"
-                ])
+                }
             }
         }
         stage ("Deploy to DEV") {
