@@ -16,6 +16,7 @@ pipeline {
                 sh "docker build -t slavayuhymchuk/tasks_fe:${VERSION} . --no-cache"
                 // IMAGE_ID = $(sh "docker images --filter=reference=slavayuhymchuk/tasks_fe:${VERSION} --format "{{.ID}}"")
                 // sh "docker tag ${IMAGE_ID} slavayuhymchuk/tasks_fe:latest"
+                // ...
             }
         }
         stage ("Test") {
