@@ -1,7 +1,15 @@
+
+// CODE_CNANGE = getGitChanges()
+
 pipeline {
     agent any
     stages {
         stage ("Build") {
+            // when {
+            //     expression {
+            //         CODE_CNANGE == true
+            //     }
+            // }
             steps {
                 echo "Building the application..." 
             }
@@ -11,7 +19,7 @@ pipeline {
                 echo "Building the application..."
             }
         }
-        stage ("Deploy") {
+        stage ("Deploy to DEV") {
             when {
                 expression {
                     BRANCH_NAME == "dev"
@@ -20,6 +28,8 @@ pipeline {
             steps {
                 echo "Deploying the application to DEV EKS cluster..."
             }
+        }
+        stage ("Deploy to PROD") {
             when {
                 expression {
                     BRANCH_NAME == "main"
@@ -32,13 +42,13 @@ pipeline {
     }
     post {
         always {
-
+            echo "Finished pileline"
         }
         success {
-
+            echo "Success"
         }
         failure {
-
+            echo "Failure"
         }
     }
 }
