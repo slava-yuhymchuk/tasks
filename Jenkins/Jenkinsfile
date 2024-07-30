@@ -3,6 +3,7 @@ pipeline {
     environment {
         // CODE_CNANGE = getGitChanges()
         VERSION = "1.1"
+        DOCKERHUB_CREDS = credentials("dockerhub-accesstoken")
     }
     stages {
         stage ("Build") {
@@ -18,6 +19,12 @@ pipeline {
         stage ("Test") {
             steps {
                 echo "Testing version ${VERSION}"
+            }
+        }
+        stage ("Push to Docker Hub") {
+            steps {
+                echo "Authenticating to Docker Hub with ${DOCKERHUB_CREDS}"
+                echo "Pushing version ${VERSION} to Docker Hub"
             }
         }
         stage ("Deploy to DEV") {
