@@ -11,12 +11,12 @@ pipeline {
             //     }
             // }
             steps {
-                echo "Building the application..." 
+                echo "Building docker image..."
             }
         }
         stage ("Test") {
             steps {
-                echo "Building the application..."
+                echo "Testing..."
             }
         }
         stage ("Deploy to DEV") {
@@ -26,7 +26,7 @@ pipeline {
                 }
             }
             steps {
-                echo "Deploying the application to DEV EKS cluster..."
+                echo "Deploying to DEV EKS cluster..."
             }
         }
         stage ("Deploy to PROD") {
@@ -36,7 +36,7 @@ pipeline {
                 }
             }
             steps {
-                echo "Deploying the application to PROD EKS cluster..."
+                echo "Deploying to PROD EKS cluster..."
             }
         }
     }
