@@ -12,9 +12,33 @@ pipeline {
             }
         }
         stage ("Deploy") {
-            steps {
-                echo "Deploying the application..."
+            when {
+                expression {
+                    BRANCH_NAME == "dev"
+                }
             }
+            steps {
+                echo "Deploying the application to DEV EKS cluster..."
+            }
+            when {
+                expression {
+                    BRANCH_NAME == "main"
+                }
+            }
+            steps {
+                echo "Deploying the application to PROD EKS cluster..."
+            }
+        }
+    }
+    post {
+        always {
+
+        }
+        success {
+
+        }
+        failure {
+
         }
     }
 }
