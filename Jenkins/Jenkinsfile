@@ -16,7 +16,7 @@ pipeline {
                 dir ("Python & Docker/FE") {
                     sh "docker build -t slavayuhymchuk/tasks_fe:${VERSION} . --no-cache"
                     script {
-                        IMAGE_ID = sh "docker images --filter=reference=slavayuhymchuk/tasks_fe:${VERSION} --format '{{.ID}}'"
+                        IMAGE_ID = sh script: "docker images --filter=reference=slavayuhymchuk/tasks_fe:${VERSION} --format '{{.ID}}'", returnStdout: true
                     }
                     sh "docker tag ${IMAGE_ID} slavayuhymchuk/tasks_fe:latest"
                     // ..
