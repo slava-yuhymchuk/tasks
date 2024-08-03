@@ -52,24 +52,24 @@ pipeline {
         stage ("Push FE to Docker Hub") {
             steps {
                 // withCredentials([usernamePassword(credentialsId: "dockerhub-accesstoken", usernameVariable: USER, passwordVariable: PWD)]) {
-                    echo "Pushing FE ${VERSION_FE} to Docker Hub"
-                    script {
-                        docker.withRegistry("", REGISTRY_CRED) {
+                echo "Pushing FE ${VERSION_FE} to Docker Hub"
+                script {
+                    docker.withRegistry("", REGISTRY_CRED) {
                         IMAGE_FE.push()
                         IMAGE_FE_LATEST.push()
-                        }
-                    } 
-                    // sh "docker login"
-                    // sh "docker push slavayuhymchuk/tasks_fe:${VERSION}"
-                    // sh "docker push slavayuhymchuk/tasks_fe:latest"
-                // }
+                    }
+                } 
             }
         }
-                stage ("Push BE to Docker Hub") {
+        stage ("Push BE to Docker Hub") {
             steps {
-                withCredentials([usernamePassword(credentialsId: "dockerhub-accesstoken", usernameVariable: USER, passwordVariable: PWD)]) {
-                    echo "Pushing BE ${VERSION_BE} to Docker Hub"
-                }
+                echo "Pushing BE ${VERSION_BE} to Docker Hub"
+                script {
+                    docker.withRegistry("", REGISTRY_CRED) {
+                        IMAGE_BE.push()
+                        IMAGE_BE_LATEST.push()
+                    }
+                } 
             }
         }
         stage ("Deploy to DEV") {
