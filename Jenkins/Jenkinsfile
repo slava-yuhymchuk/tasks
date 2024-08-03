@@ -33,7 +33,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: "dockerhub-accesstoken", usernameVariable: USER, passwordVariable: PWD)]) {
                     echo "Pushing version ${VERSION} to Docker Hub"
-                    // sh "docker login"
+                    sh "docker login"
                     sh "docker push slavayuhymchuk/tasks_fe:${VERSION}"
                     sh "docker push slavayuhymchuk/tasks_fe:latest"
                 }
