@@ -2,23 +2,25 @@ pipeline {
     agent any
     environment {
         // CODE_CNANGE = getGitChanges()
-        VERSION = "1.1" // to get from code
-        registryFE = "slavayuhymchuk/tasks_fe"
-        registryBE = "slavayuhymchuk/tasks_be"
-        registryCredential = "dockerhub_accesstoken"
+        REGISTRY_FE = "slavayuhymchuk/tasks_fe"
+        REGISTRY_BE = "slavayuhymchuk/tasks_be"
+        REGISTRY_CRED = "dockerhub_accesstoken"
+        VERSION_FE = "1.1" // to get from code
+        VERSION_BE = "1.0" // to get from code
     }
     stages {
-        stage ("Build") {
+        stage ("Build FE") {
             // when {
             //     expression {
             //         CODE_CNANGE == true
             //     }
             // }
             steps {
-                echo "Building docker image version ${VERSION}"
+                echo "Building FE docker image version ${VERSION_FE}"
                 dir ("Python & Docker/FE") {
                     script {
-                        dockerImage = docker.build registryFE + ":${VERSION}"
+                        IMAGE_FE = docker.build REGISTRY_FE + ":${VERSION_FE}"
+                        IMAGE_FE_LATEST = docker.build REGISTRY_FE + ":latest"
                     }
                     // sh "docker build -t slavayuhymchuk/tasks_fe:${VERSION} ."
                     // sh "docker build -t slavayuhymchuk/tasks_fe:latest ."
@@ -27,6 +29,22 @@ pipeline {
                     // }
                     // sh "docker tag ${IMAGE_ID} slavayuhymchuk/tasks_fe:latest"
                     // ..
+                }
+            }
+        }
+        stage ("Build BE") {
+            // when {
+            //     expression {
+            //         CODE_CNANGE == true
+            //     }
+            // }
+            steps {
+                echo "Building BE docker image version ${VERSION_BE}"
+                dir ("Python & Docker/FE") {
+                    script {
+                        IMAGE_BE = docker.build REGISTRY_BE + ":${VERSION_BE}"
+                        IMAGE_BE_LATEST = docker.build REGISTRY_BE + ":latest"
+                    }
                 }
             }
         }
