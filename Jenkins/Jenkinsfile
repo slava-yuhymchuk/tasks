@@ -3,6 +3,8 @@ pipeline {
     environment {
         // CODE_CNANGE = getGitChanges()
         VERSION = "1.1" // to get from code
+        registry = "slavayuhymchuk/tasks_fe"
+        registryCredential = "dockerhub_accesstoken"
     }
     stages {
         stage ("Build") {
@@ -14,8 +16,11 @@ pipeline {
             steps {
                 echo "Building docker image version ${VERSION}"
                 dir ("Python & Docker/FE") {
-                    sh "docker build -t slavayuhymchuk/tasks_fe:${VERSION} ."
-                    sh "docker build -t slavayuhymchuk/tasks_fe:latest ."
+                    script {
+                        dockerImage = docker.build registry + ":${VERSION}"
+                    }
+                    // sh "docker build -t slavayuhymchuk/tasks_fe:${VERSION} ."
+                    // sh "docker build -t slavayuhymchuk/tasks_fe:latest ."
                     // script {
                     //     IMAGE_ID = sh script: "docker images --filter=reference=slavayuhymchuk/tasks_fe:${VERSION} --format '{{.ID}}'", returnStdout: true
                     // }
@@ -33,9 +38,14 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: "dockerhub-accesstoken", usernameVariable: USER, passwordVariable: PWD)]) {
                     echo "Pushing version ${VERSION} to Docker Hub"
-                    sh "docker login"
-                    sh "docker push slavayuhymchuk/tasks_fe:${VERSION}"
-                    sh "docker push slavayuhymchuk/tasks_fe:latest"
+                    // script {
+                    //     docker.withRegistry( '', dockerhub-accesstoken ) {
+                    //     dockerImage.push()
+                    //     }
+                    // } 
+                    // sh "docker login"
+                    // sh "docker push slavayuhymchuk/tasks_fe:${VERSION}"
+                    // sh "docker push slavayuhymchuk/tasks_fe:latest"
                 }
             }
         }
