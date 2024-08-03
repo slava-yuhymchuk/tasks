@@ -3,7 +3,8 @@ pipeline {
     environment {
         // CODE_CNANGE = getGitChanges()
         VERSION = "1.1" // to get from code
-        registry = "slavayuhymchuk/tasks_fe"
+        registryFE = "slavayuhymchuk/tasks_fe"
+        registryBE = "slavayuhymchuk/tasks_be"
         registryCredential = "dockerhub_accesstoken"
     }
     stages {
@@ -17,7 +18,7 @@ pipeline {
                 echo "Building docker image version ${VERSION}"
                 dir ("Python & Docker/FE") {
                     script {
-                        dockerImage = docker.build registry + ":${VERSION}"
+                        dockerImage = docker.build registryFE + ":${VERSION}"
                     }
                     // sh "docker build -t slavayuhymchuk/tasks_fe:${VERSION} ."
                     // sh "docker build -t slavayuhymchuk/tasks_fe:latest ."
