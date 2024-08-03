@@ -16,7 +16,7 @@ pipeline {
             //     }
             // }
             steps {
-                echo "Building FE docker image version ${VERSION_FE}"
+                echo "Building FE docker image ${VERSION_FE}"
                 dir ("Python & Docker/FE") {
                     script {
                         IMAGE_FE = docker.build REGISTRY_FE + ":${VERSION_FE}"
@@ -39,8 +39,8 @@ pipeline {
             //     }
             // }
             steps {
-                echo "Building BE docker image version ${VERSION_BE}"
-                dir ("Python & Docker/FE") {
+                echo "Building BE docker image ${VERSION_BE}"
+                dir ("Python & Docker/BE") {
                     script {
                         IMAGE_BE = docker.build REGISTRY_BE + ":${VERSION_BE}"
                         IMAGE_BE_LATEST = docker.build REGISTRY_BE + ":latest"
@@ -50,13 +50,14 @@ pipeline {
         }
         stage ("Test") {
             steps {
-                echo "Testing version ${VERSION}"
+                echo "Testing FE ${VERSION_FE}"
+                echo "Testing BE ${VERSION_BE}"
             }
         }
-        stage ("Push to Docker Hub") {
+        stage ("Push FE to Docker Hub") {
             steps {
                 withCredentials([usernamePassword(credentialsId: "dockerhub-accesstoken", usernameVariable: USER, passwordVariable: PWD)]) {
-                    echo "Pushing version ${VERSION} to Docker Hub"
+                    echo "Pushing FE ${VERSION_FE} to Docker Hub"
                     // script {
                     //     docker.withRegistry( '', dockerhub-accesstoken ) {
                     //     dockerImage.push()
@@ -68,6 +69,13 @@ pipeline {
                 }
             }
         }
+                stage ("Push BE to Docker Hub") {
+            steps {
+                withCredentials([usernamePassword(credentialsId: "dockerhub-accesstoken", usernameVariable: USER, passwordVariable: PWD)]) {
+                    echo "Pushing BE ${VERSION_BE} to Docker Hub"
+                }
+            }
+        }
         stage ("Deploy to DEV") {
             when {
                 expression {
@@ -75,7 +83,7 @@ pipeline {
                 }
             }
             steps {
-                echo "Deploying version ${VERSION} to DEV EKS cluster..."
+                echo "Deploying FE ${VERSION_FE} and BE ${VERSION_BE} to DEV EKS cluster..."
             }
         }
         stage ("Deploy to PROD") {
@@ -85,7 +93,7 @@ pipeline {
                 }
             }
             steps {
-                echo "Deploying ${VERSION} to PROD EKS cluster..."
+                echo "Deploying FE ${VERSION_FE} and BE ${VERSION_BE} to PROD EKS cluster..."
             }
         }
     }
