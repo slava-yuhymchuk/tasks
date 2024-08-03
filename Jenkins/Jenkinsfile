@@ -28,7 +28,6 @@ pipeline {
                     //     IMAGE_ID = sh script: "docker images --filter=reference=slavayuhymchuk/tasks_fe:${VERSION} --format '{{.ID}}'", returnStdout: true
                     // }
                     // sh "docker tag ${IMAGE_ID} slavayuhymchuk/tasks_fe:latest"
-                    // ..
                 }
             }
         }
@@ -79,7 +78,7 @@ pipeline {
                 }
             }
             steps {
-                echo "Deploying FE ${VERSION_FE} and BE ${VERSION_BE} to DEV EKS cluster..."
+                echo "Deploying FE ${VERSION_FE} and BE ${VERSION_BE} to DEV EKS cluster"
             }
         }
         stage ("Deploy to PROD") {
@@ -89,7 +88,7 @@ pipeline {
                 }
             }
             steps {
-                echo "Deploying FE ${VERSION_FE} and BE ${VERSION_BE} to PROD EKS cluster..."
+                echo "Deploying FE ${VERSION_FE} and BE ${VERSION_BE} to PROD EKS cluster"
             }
         }
     }
