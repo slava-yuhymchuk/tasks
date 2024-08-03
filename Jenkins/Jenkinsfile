@@ -4,7 +4,7 @@ pipeline {
         // CODE_CNANGE = getGitChanges()
         REGISTRY_FE = "slavayuhymchuk/tasks_fe"
         REGISTRY_BE = "slavayuhymchuk/tasks_be"
-        REGISTRY_CRED = "dockerhub_accesstoken"
+        REGISTRY_CRED = "dockerhub-accesstoken"
         VERSION_FE = "1.1" // to get from code
         VERSION_BE = "1.0" // to get from code
     }
