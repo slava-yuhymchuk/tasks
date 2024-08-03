@@ -54,7 +54,7 @@ pipeline {
                 // withCredentials([usernamePassword(credentialsId: "dockerhub-accesstoken", usernameVariable: USER, passwordVariable: PWD)]) {
                     echo "Pushing FE ${VERSION_FE} to Docker Hub"
                     script {
-                        docker.withRegistry(REGISTRY_FE, REGISTRY_CRED) {
+                        docker.withRegistry("", REGISTRY_CRED) {
                         IMAGE_FE.push()
                         IMAGE_FE_LATEST.push()
                         }
