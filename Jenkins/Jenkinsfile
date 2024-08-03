@@ -14,7 +14,7 @@ pipeline {
             steps {
                 echo "Building docker image version ${VERSION}"
                 dir ("Python & Docker/FE") {
-                    sh "docker build -t slavayuhymchuk/tasks_fe:${VERSION} . --no-cache"
+                    sh "docker build -t slavayuhymchuk/tasks_fe:${VERSION} ."
                     sh "docker build -t slavayuhymchuk/tasks_fe:latest ."
                     // script {
                     //     IMAGE_ID = sh script: "docker images --filter=reference=slavayuhymchuk/tasks_fe:${VERSION} --format '{{.ID}}'", returnStdout: true
@@ -31,9 +31,7 @@ pipeline {
         }
         stage ("Push to Docker Hub") {
             steps {
-                withCredentials([
-                    usernamePassword(credentials: "dockerhub-accesstoken", usernameVariable: USER, passwordVariable: PWD)
-                ]) {
+                withCredentials([usernamePassword(credentialsId: "dockerhub-accesstoken", usernameVariable: USER, passwordVariable: PWD)]) {
                     echo "Pushing version ${VERSION} to Docker Hub"
                     // sh "docker login"
                     // sh "docker push slavayuhymchuk/tasks_fe:${VERSION}"
