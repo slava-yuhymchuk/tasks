@@ -33,11 +33,6 @@ pipeline {
             }
         }
         stage ("Build BE") {
-            // when {
-            //     expression {
-            //         CODE_CNANGE == true
-            //     }
-            // }
             steps {
                 echo "Building BE docker image ${VERSION_BE}"
                 dir ("Python & Docker/BE") {
@@ -56,17 +51,18 @@ pipeline {
         }
         stage ("Push FE to Docker Hub") {
             steps {
-                withCredentials([usernamePassword(credentialsId: "dockerhub-accesstoken", usernameVariable: USER, passwordVariable: PWD)]) {
+                // withCredentials([usernamePassword(credentialsId: "dockerhub-accesstoken", usernameVariable: USER, passwordVariable: PWD)]) {
                     echo "Pushing FE ${VERSION_FE} to Docker Hub"
-                    // script {
-                    //     docker.withRegistry( '', dockerhub-accesstoken ) {
-                    //     dockerImage.push()
-                    //     }
-                    // } 
+                    script {
+                        docker.withRegistry(REGISTRY_FE, REGISTRY_CRED) {
+                        IMAGE_FE.push()
+                        IMAGE_FE_LATEST.push()
+                        }
+                    } 
                     // sh "docker login"
                     // sh "docker push slavayuhymchuk/tasks_fe:${VERSION}"
                     // sh "docker push slavayuhymchuk/tasks_fe:latest"
-                }
+                // }
             }
         }
                 stage ("Push BE to Docker Hub") {
