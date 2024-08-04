@@ -73,7 +73,7 @@ pipeline {
                     // Front-End Test
                     echo "Running Front-End Tests"
                     try {
-                        sh "curl http://localhost"
+                        sh "curl http://localhost/tasks"
                         echo "Front-End Test Passed"
                     }
                     catch (Exception e) {
