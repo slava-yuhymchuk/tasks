@@ -58,7 +58,7 @@ pipeline {
                     // Back-End Test
                     echo "Running Back-End Tests"
                     try {
-                        sh "curl -f http://localhost:5000/be/tasks"
+                        sh "curl -f http://localhost:5000/be/read_file"
                         echo "Back-End Test Passed"
                     }
                     catch (Exception e) {
