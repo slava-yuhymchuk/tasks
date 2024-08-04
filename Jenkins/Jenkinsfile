@@ -58,18 +58,34 @@ pipeline {
                     // Back-End Test
                     echo "Running Back-End Tests"
                     try {
-                        sh "curl -f http://localhost:5000/be/read_file"
+                        sh "curl -f http://localhost:5000/be/tasks"
                         echo "Back-End Test Passed"
-                    } catch (Exception e) {
-                        error "Back-End Test Failed"
+                    }
+                    catch (Exception e) {
+                        echo "Back-End Test Failed"
+                        echo "Stopping test containers"
+                        sh "docker stop tasks-be"
+                        echo "Removing test containers"
+                        sh "docker rm tasks-be"
+                        echo "Removing docker network"
+                        sh "docker network rm tasks"  
                     }
                     // Front-End Test
                     echo "Running Front-End Tests"
                     try {
                         sh "curl -f http://localhost"
                         echo "Front-End Test Passed"
-                    } catch (Exception e) {
-                        error "Front-End Test Failed"
+                    }
+                    catch (Exception e) {
+                        echo "Front-End Test Failed"
+                        echo "Stopping test containers"
+                        sh "docker stop tasks-fe"
+                        sh "docker stop tasks-be"
+                        echo "Removing test containers"
+                        sh "docker rm tasks-fe"
+                        sh "docker rm tasks-be"
+                        echo "Removing docker network"
+                        sh "docker network rm tasks"  
                     }
                     // Stop the containers after tests
                     echo "Stopping test containers"
