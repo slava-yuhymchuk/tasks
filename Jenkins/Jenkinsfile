@@ -44,8 +44,45 @@ pipeline {
         }
         stage ("Test") {
             steps {
-                echo "Testing FE ${VERSION_FE}"
-                echo "Testing BE ${VERSION_BE}"
+                echo "Starting test for FE ${VERSION_FE} and BE ${VERSION_BE}"
+                script {
+                    // Create custom Docker network
+                    echo "Creating docker network"
+                    sh "docker network create tasks"
+                    // Run BE container
+                    echo "Starting BE container for testing"
+                    sh "docker run -d --network tasks -p 5000:5000 --name tasks-be ${REGISTRY_BE}:${VERSION_BE}"
+                    // Run FE container
+                    echo "Starting FE container for testing"
+                    sh "docker run -d --network tasks -p 80:80 --env BE_URL=http://tasks-be:5000/be --env FE_PORT=80 --name tasks-fe ${REGISTRY_FE}:${VERSION_FE}"
+                    // Back-End Test
+                    echo "Running Back-End Tests"
+                    try {
+                        sh "curl -f http://localhost:5000/be/tasks"
+                        echo "Back-End Test Passed"
+                    } catch (Exception e) {
+                        error "Back-End Test Failed"
+                    }
+                    // Front-End Test
+                    echo "Running Front-End Tests"
+                    try {
+                        sh "curl -f http://localhost"
+                        echo "Front-End Test Passed"
+                    } catch (Exception e) {
+                        error "Front-End Test Failed"
+                    }
+                    // Stop the containers after tests
+                    echo "Stopping test containers"
+                    sh "docker stop tasks-fe"
+                    sh "docker stop tasks-be"
+                    // Remove the containers
+                    echo "Removing test containers"
+                    sh "docker rm tasks-fe"
+                    sh "docker rm tasks-be"
+                    // Remove the custom Docker network
+                    echo "Removing docker network"
+                    sh "docker network rm tasks"
+                }
             }
         }
         stage ("Push FE to Docker Hub") {
