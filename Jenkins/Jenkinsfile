@@ -101,7 +101,7 @@ pipeline {
                 }
             }
         }
-        stage ("Push FE to Docker Hub") {
+        stage ("Push FE") {
             steps {
                 // withCredentials([usernamePassword(credentialsId: "dockerhub-accesstoken", usernameVariable: USER, passwordVariable: PWD)]) {
                 echo "Pushing FE ${VERSION_FE} to Docker Hub"
@@ -113,7 +113,7 @@ pipeline {
                 } 
             }
         }
-        stage ("Push BE to Docker Hub") {
+        stage ("Push BE") {
             steps {
                 echo "Pushing BE ${VERSION_BE} to Docker Hub"
                 script {
