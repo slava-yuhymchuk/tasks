@@ -63,12 +63,6 @@ pipeline {
                     }
                     catch (Exception e) {
                         echo "Back-End Test Failed"
-                        // echo "Stopping test containers"
-                        // sh "docker stop tasks-be"
-                        // echo "Removing test containers"
-                        // sh "docker rm tasks-be"
-                        // echo "Removing docker network"
-                        // sh "docker network rm tasks"  
                     }
                     // Front-End Test
                     echo "Running Front-End Tests"
@@ -78,14 +72,6 @@ pipeline {
                     }
                     catch (Exception e) {
                         echo "Front-End Test Failed"
-                        // echo "Stopping test containers"
-                        // sh "docker stop tasks-fe"
-                        // sh "docker stop tasks-be"
-                        // echo "Removing test containers"
-                        // sh "docker rm tasks-fe"
-                        // sh "docker rm tasks-be"
-                        // echo "Removing docker network"
-                        // sh "docker network rm tasks"  
                     }
                     // Stop the containers after tests
                     echo "Stopping test containers"
