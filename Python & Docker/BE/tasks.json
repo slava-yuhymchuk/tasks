@@ -23,6 +23,36 @@
             "Title": "Write Jenkins CI/CD pipeline",
             "Details": "Should have at least Checkout, Build, Test and Deploy stages",
             "Status": "New"
+        },
+        {
+            "ID": 5,
+            "Title": "Clean Scom Alerts",
+            "Details": "WE want to spoil the Scom console and make it clean",
+            "Status": "New"
+        },
+        {
+            "ID": 6,
+            "Title": "Day vs Evening in Ljubljana Castle",
+            "Details": "When should we visit Ljubljana Castle, during the day or in the evening?",
+            "Status": "New"
+        },
+        {
+            "ID": 7,
+            "Title": "Drink Beer",
+            "Details": "Dima Dolgov's suggestion is to drink at least 0.5L every 20 minutes between 6PM-11PM, Better to consume with some beef.",
+            "Status": "New"
+        },
+        {
+            "ID": 8,
+            "Title": "Upgrade servers",
+            "Details": "Old SAP BW servers need to be upgraded",
+            "Status": "New"
+        },
+        {
+            "ID": 9,
+            "Title": "Play Diablo IV Season 5",
+            "Details": "Necromancer",
+            "Status": "New"
         }
     ]
 }
