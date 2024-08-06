@@ -81,7 +81,7 @@ pipeline {
                     echo "Removing test containers"
                     sh "docker rm tasks-fe"
                     sh "docker rm tasks-be"
-                    // Remove the custom Docker network.
+                    // Remove the custom Docker network..
                     echo "Removing docker network"
                     sh "docker network rm tasks"
                 }

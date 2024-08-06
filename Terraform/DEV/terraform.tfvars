@@ -27,5 +27,5 @@ instance_types                 = ["t3.small"]
 capacity_type                  = "SPOT"
 ami_type                       = "AL2023_x86_64_STANDARD"
 min_size                       = 2
-max_size                       = 10
+max_size                       = 9
 desired_size                   = 2
