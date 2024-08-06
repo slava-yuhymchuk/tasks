@@ -6,7 +6,7 @@ metadata:
   labels:
     app: tasks-fe
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: tasks-fe
