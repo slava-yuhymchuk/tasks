@@ -2,7 +2,6 @@ pipeline {
     agent any
     environment {
         // CODE_CNANGE = getGitChanges()
-        TELEGRAM_CHAT_ID = '5841993506'
         REGISTRY_FE = "slavayuhymchuk/tasks_fe"
         REGISTRY_BE = "slavayuhymchuk/tasks_be"
         REGISTRY_CRED = "dockerhub-accesstoken"
@@ -29,34 +28,6 @@ pipeline {
                         IMAGE_BE = docker.build REGISTRY_BE + ":${VERSION_BE}"
                         IMAGE_BE_LATEST = docker.build REGISTRY_BE + ":latest"
                     }
-                }
-            }
-        }
-   
-        stage('Send Frontend Scan Report via Telegram') {
-            steps {
-                script {
-                    // Send the tasks_fe file via Telegram
-                    sh """
-                    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument \
-                    -F chat_id=${TELEGRAM_CHAT_ID} \
-                    -F document=@TrivyScan_Frontend \
-                    -F caption="Trivy Scan Report - Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
-                    """
-                }
-            }
-        }
-   
-        stage('Send Backend Scan Report via Telegram') {
-            steps {
-                script {
-                    // Send the tasks_be file via Telegram
-                    sh """
-                    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument \
-                    -F chat_id=${TELEGRAM_CHAT_ID} \
-                    -F document=@TrivyScan_Backend \
-                    -F caption="Trivy Scan Report - Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
-                    """
                 }
             }
         }
