@@ -11,17 +11,6 @@ pipeline {
         VERSION_BE = "1.0" // to get from code
     }
     stages {
-        stage ("Build FE") {
-            steps {
-                echo "Building FE docker image ${VERSION_FE}"
-                dir ("Python & Docker/FE") {
-                    script {
-                        IMAGE_FE = docker.build REGISTRY_FE + ":${VERSION_FE}"
-                        IMAGE_FE_LATEST = docker.build REGISTRY_FE + ":latest"
-                    }
-                }
-            }
-        }
         stage ("Build BE") {
             steps {
                 echo "Building BE docker image ${VERSION_BE}"
