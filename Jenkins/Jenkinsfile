@@ -32,14 +32,7 @@ pipeline {
                 }
             }
         }
-        stage('Run Trivy Scan Frontend') {
-            steps {
-                script {
-                    // Run Trivy scan and save output to file
-                    sh 'trivy image "${REGISTRY_FE}:${VERSION_FE}" > TrivyScan_Frontend'
-                }
-            }
-        }
+   
         stage('Send Frontend Scan Report via Telegram') {
             steps {
                 script {
@@ -53,14 +46,7 @@ pipeline {
                 }
             }
         }
-        stage('Run Trivy Scan Backend') {
-            steps {
-                script {
-                    // Run Trivy scan and save output to file
-                    sh 'trivy image "${REGISTRY_BE}:${VERSION_BE}" > TrivyScan_Backend'
-                }
-            }
-        }
+   
         stage('Send Backend Scan Report via Telegram') {
             steps {
                 script {
