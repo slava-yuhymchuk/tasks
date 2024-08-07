@@ -3,7 +3,6 @@ pipeline {
     environment {
         // CODE_CNANGE = getGitChanges()
         TELEGRAM_CHAT_ID = '5841993506'
-        TELEGRAM_TOKEN = '7086147763:AAHKD58YQc-_MyyaCc5YcPzahRjEn-pR7Qw'
         REGISTRY_FE = "slavayuhymchuk/tasks_fe"
         REGISTRY_BE = "slavayuhymchuk/tasks_be"
         REGISTRY_CRED = "dockerhub-accesstoken"
