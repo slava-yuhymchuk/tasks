@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
                     // Run Trivy scan and save output to file
-                    sh 'trivy image slavayuhymchuk/tasks_כe:latest > TrivyScan_Frontend'
+                    sh 'trivy image slavayuhymchuk/tasks_fe:latest > TrivyScan_Frontend'
                 }
             }
         }
