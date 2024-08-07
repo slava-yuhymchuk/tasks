@@ -41,7 +41,7 @@ pipeline {
                 }
             }
         }
-        stage('Send File via Telegram') {
+        stage('Send Frontend Scan Report via Telegram') {
             steps {
                 script {
                     // Send the tasks_fe file via Telegram
@@ -58,14 +58,14 @@ pipeline {
             steps {
                 script {
                     // Run Trivy scan and save output to file
-                    sh 'trivy image "${REGISTRY_FE}:${VERSION_FE}" > TrivyScan_Backend'
+                    sh 'trivy image "${REGISTRY_BE}:${VERSION_BE}" > TrivyScan_Backend'
                 }
             }
         }
-        stage('Send File via Telegram') {
+        stage('Send Backend Scan Report via Telegram') {
             steps {
                 script {
-                    // Send the tasks_fe file via Telegram
+                    // Send the tasks_be file via Telegram
                     sh """
                     curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument \
                     -F chat_id=${TELEGRAM_CHAT_ID} \
@@ -114,7 +114,7 @@ pipeline {
                     echo "Removing test containers"
                     sh "docker rm tasks-fe"
                     sh "docker rm tasks-be"
-                    // Remove the custom Docker network..
+                    // Remove the custom Docker network.
                     echo "Removing docker network"
                     sh "docker network rm tasks"
                 }
@@ -142,47 +142,43 @@ pipeline {
                 } 
             }
         }
+        // Uncomment the deploy stages when ready
+        /*
+        stage ("Deploy to DEV") {
+            when {
+                expression {
+                    BRANCH_NAME == "dev"
+                }
+            }
+            steps {
+                echo "Deploying FE ${VERSION_FE} and BE ${VERSION_BE} to DEV EKS cluster"
+            }
+        }
+        stage ("Deploy to PROD") {
+            when {
+                expression {
+                    BRANCH_NAME == "main"
+                }
+            }
+            steps {
+                echo "Deploying FE ${VERSION_FE} and BE ${VERSION_BE} to PROD EKS cluster"
+            }
+        }
+        */
     }
-    //     stage ("Deploy to DEV") {
-    //         when {
-    //             expression {
-    //                 BRANCH_NAME == "dev"
-    //             }
-    //         }
-    //         steps {
-    //             echo "Deploying FE ${VERSION_FE} and BE ${VERSION_BE} to DEV EKS cluster"
-    //         }
-    //     }
-    //     stage ("Deploy to PROD") {
-    //         when {
-    //             expression {
-    //                 BRANCH_NAME == "main"
-    //             }
-    //         }
-    //         steps {
-    //             echo "Deploying FE ${VERSION_FE} and BE ${VERSION_BE} to PROD EKS cluster"
-    //         }
-    //     }
-    }      
     post {
         success {
             sh """
-            curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_CHAT_ID} -d text="Pipeline Completed Successfully Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME} "
-            """
-            sh """
-            curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_CHAT_ID} -d text="Pipeline Completed Successfully"
+            curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_CHAT_ID} -d text="Pipeline Completed Successfully Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
             """
         }
         failure {
             sh """
-            curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_CHAT_ID} -d text="Pipeline Failed Build:${env.BUILD_ID} Name:${env.JOB_NAME} "
+            curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_CHAT_ID} -d text="Pipeline Failed Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
             """
         }
         always {
             echo "Finished pipeline"
-            sh """
-            curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_CHAT_ID} -d text="Pipeline Failed"
-            """
         }
     }
 }
