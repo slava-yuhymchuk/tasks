@@ -154,7 +154,27 @@ pipeline {
                 } 
             }
         }
-      
+    //     stage ("Deploy to DEV") {
+    //         when {
+    //             expression {
+    //                 BRANCH_NAME == "dev"
+    //             }
+    //         }
+    //         steps {
+    //             echo "Deploying FE ${VERSION_FE} and BE ${VERSION_BE} to DEV EKS cluster"
+    //         }
+    //     }
+    //     stage ("Deploy to PROD") {
+    //         when {
+    //             expression {
+    //                 BRANCH_NAME == "main"
+    //             }
+    //         }
+    //         steps {
+    //             echo "Deploying FE ${VERSION_FE} and BE ${VERSION_BE} to PROD EKS cluster"
+    //         }
+    //     }
+    }      
     post {
         always {
             echo "Finished pileline"
