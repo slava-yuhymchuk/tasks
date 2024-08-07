@@ -44,6 +44,48 @@ pipeline {
                 }
             }
         }
+        stage('Run Trivy Scan Frontend') {
+            steps {
+                script {
+                    // Run Trivy scan and save output to file
+                    sh 'trivy image "${REGISTRY_FE}:${VERSION_FE}" > TrivyScan_Frontend'
+                }
+            }
+        }
+        stage('Send File via Telegram') {
+            steps {
+                script {
+                    // Send the tasks_fe file via Telegram
+                    sh """
+                    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument \
+                    -F chat_id=${TELEGRAM_CHAT_ID} \
+                    -F document=@TrivyScan_Frontend \
+                    -F caption="Trivy Scan Report - Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
+                    """
+                }
+            }
+        }
+        stage('Run Trivy Scan Backend') {
+            steps {
+                script {
+                    // Run Trivy scan and save output to file
+                    sh 'trivy image "${REGISTRY_FE}:${VERSION_FE}" > TrivyScan_Backend'
+                }
+            }
+        }
+        stage('Send File via Telegram') {
+            steps {
+                script {
+                    // Send the tasks_fe file via Telegram
+                    sh """
+                    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument \
+                    -F chat_id=${TELEGRAM_CHAT_ID} \
+                    -F document=@TrivyScan_Backend \
+                    -F caption="Trivy Scan Report - Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
+                    """
+                }
+            }
+        }
         stage ("Test") {
             steps {
                 echo "Starting test for FE ${VERSION_FE} and BE ${VERSION_BE}"
