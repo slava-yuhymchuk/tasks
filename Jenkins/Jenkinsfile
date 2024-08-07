@@ -1,8 +1,8 @@
 pipeline {
     agent any
     environment {
-        TELEGRAM_TOKEN = '7086147763:AAHKD58YQc-_MyyaCc5YcPzahRjEn-pR7Qw'
-        TELEGRAM_CHAT_ID = '5841993506'
+        TELEGRAM_TOKEN = '7086147763:AAHKD58YQc-_MyyaCc5YcPzahRjEn-pR7Qw!'
+        TELEGRAM_CHAT_ID = '5841993506!'
         REGISTRY_FE = "slavayuhymchuk/tasks_fe"
         REGISTRY_BE = "slavayuhymchuk/tasks_be"
         REGISTRY_CRED = "dockerhub-accesstoken"
@@ -103,12 +103,12 @@ pipeline {
     post {
         success {
             sh """
-            curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_CHAT_ID} -d text="Pipeline Completed Successfully"
+            curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_CHAT_ID} -d text="Pipeline Completed Successfully Build_ID:${env.BUILD_ID} "
             """
         }
         failure {
             sh """
-            curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_CHAT_ID} -d text="Pipeline Failed"
+            curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_CHAT_ID} -d text="Pipeline Failed Build_ID:${env.BUILD_ID} "
             """
         }
         always {
