@@ -10,6 +10,17 @@ pipeline {
         VERSION_BE = "1.0" // to get from code
     }
     stages {
+        stage ("Build FE") {
+            steps {
+                echo "Building FE docker image ${VERSION_FE}"
+                dir ("Python & Docker/FE") {
+                    script {
+                        IMAGE_FE = docker.build REGISTRY_FE + ":${VERSION_FE}"
+                        IMAGE_FE_LATEST = docker.build REGISTRY_FE + ":latest"
+                    }
+                }
+            }
+        }
         stage ("Build BE") {
             steps {
                 echo "Building BE docker image ${VERSION_BE}"
@@ -29,6 +40,14 @@ pipeline {
                 }
             }
         }
+        stage('Run Trivy Scan Backend') {
+            steps {
+                script {
+                    // Run Trivy scan and save output to file
+                    sh 'trivy image slavayuhymchuk/tasks_be:latest > TrivyScan_Backend'
+                }
+            }
+        }
         stage('Telegram TrivyScan Frontend') {
             steps {
                 script {
@@ -39,14 +58,6 @@ pipeline {
                     -F document=@TrivyScan_Frontend \
                     -F caption="Trivy Scan Report - Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
                     """
-                }
-            }
-        }
-        stage('Run Trivy Scan Backend') {
-            steps {
-                script {
-                    // Run Trivy scan and save output to file
-                    sh 'trivy image slavayuhymchuk/tasks_be:latest > TrivyScan_Backend'
                 }
             }
         }
