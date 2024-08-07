@@ -98,41 +98,9 @@ pipeline {
                 } 
             }
         }
-        // Uncomment the deploy stages when ready
-        /*
-        stage ("Deploy to DEV") {
-            when {
-                expression {
-                    BRANCH_NAME == "dev"
-                }
-            }
-            steps {
-                echo "Deploying FE ${VERSION_FE} and BE ${VERSION_BE} to DEV EKS cluster"
-            }
-        }
-        stage ("Deploy to PROD") {
-            when {
-                expression {
-                    BRANCH_NAME == "main"
-                }
-            }
-            steps {
-                echo "Deploying FE ${VERSION_FE} and BE ${VERSION_BE} to PROD EKS cluster"
-            }
-        }
-        */
+
     }
     post {
-        success {
-            sh """
-            curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_CHAT_ID} -d text="Pipeline Completed Successfully Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
-            """
-        }
-        failure {
-            sh """
-            curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_CHAT_ID} -d text="Pipeline Failed Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
-            """
-        }
         always {
             echo "Finished pipeline"
         }
