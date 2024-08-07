@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                     // Run Trivy scan and save output to file
-                    sh 'trivy image slavayuhymchuk/tasks_fe:latest > TrivyScan_Frontend'
+                    sh 'trivy image slavayuhymchuk/tasks_fe:latest > TrivyScan_Frontend.txt'
                 }
             }
         }
@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     // Run Trivy scan and save output to file
-                    sh 'trivy image slavayuhymchuk/tasks_be:latest > TrivyScan_Backend'
+                    sh 'trivy image slavayuhymchuk/tasks_be:latest > TrivyScan_Backend.txt'
                 }
             }
         }
@@ -56,7 +56,7 @@ pipeline {
                     sh """
                     curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument \
                     -F chat_id=${TELEGRAM_CHAT_ID} \
-                    -F document=@TrivyScan_Frontend \
+                    -F document=@TrivyScan_Frontend.txt \
                     -F caption="Trivy Scan Report - Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
                     """
                 }
@@ -69,7 +69,7 @@ pipeline {
                     sh """
                     curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument \
                     -F chat_id=${TELEGRAM_CHAT_ID} \
-                    -F document=@TrivyScan_Backend \
+                    -F document=@TrivyScan_Backend.txt \
                     -F caption="Trivy Scan Report - Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
                     """
                 }
