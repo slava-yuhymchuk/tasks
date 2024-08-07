@@ -30,7 +30,7 @@ pipeline {
                 }
             }
         }
-        stage('Send File via Telegram') {
+        stage('Telegram TrivyScan Frontend') {
             steps {
                 script {
                     // Send the tasks_fe file via Telegram
@@ -51,7 +51,7 @@ pipeline {
                 }
             }
         }
-        stage('Send File via Telegram') {
+        stage('Telegram TrivyScan Backend') {
             steps {
                 script {
                     // Send the tasks_fe file via Telegram
