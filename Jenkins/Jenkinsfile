@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         // CODE_CNANGE = getGitChanges()
-        TELEGRAM_CHAT_ID = '5841993506'
+        TELEGRAM_CHAT_ID = "5841993506"
         TELEGRAM_TOKEN = "TELEGRAM_TOKEN"
         REGISTRY_FE = "slavayuhymchuk/tasks_fe"
         REGISTRY_BE = "slavayuhymchuk/tasks_be"
@@ -33,7 +33,7 @@ pipeline {
                 }
             }
         }
-        stage('Run Trivy Scan Frontend') {
+        stage("Run Trivy Scan Frontend") {
             steps {
                 script {
                     // Run Trivy scan and save output to file
@@ -41,7 +41,7 @@ pipeline {
                 }
             }
         }
-        stage('Run Trivy Scan Backend') {
+        stage("Run Trivy Scan Backend") {
             steps {
                 script {
                     // Run Trivy scan and save output to file
@@ -49,7 +49,7 @@ pipeline {
                 }
             }
         }
-        stage('Telegram TrivyScan Frontend') {
+        stage("Telegram TrivyScan Frontend") {
             steps {
                 script {
                     // Send the tasks_fe file via Telegram
@@ -62,7 +62,7 @@ pipeline {
                 }
             }
         }
-        stage('Telegram TrivyScan Backend') {
+        stage("Telegram TrivyScan Backend") {
             steps {
                 script {
                     // Send the tasks_fe file via Telegram
