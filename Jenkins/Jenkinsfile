@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                     // Run Trivy scan and save output to file
-                    sh "trivy image ${REGISTRY_FE}" + ":${VERSION_FE} > TrivyScan_Frontend.txt"
+                    sh "trivy image ${REGISTRY_FE}:${VERSION_FE} > TrivyScan_Frontend.txt"
                 }
             }
         }
@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     // Run Trivy scan and save output to file
-                    sh 'trivy image slavayuhymchuk/tasks_be:latest > TrivyScan_Backend.txt'
+                    sh 'trivy image ${REGISTRY_BE}:${VERSION_BE} > TrivyScan_Backend.txt'
                 }
             }
         }
