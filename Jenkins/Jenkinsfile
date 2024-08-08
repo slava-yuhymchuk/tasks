@@ -2,13 +2,12 @@ pipeline {
     agent any
     environment {
         // CODE_CNANGE = getGitChanges()
-        TELEGRAM_CHAT_ID = "5841993506"
-        // TELEGRAM_TOKEN = '7086147763:AAHKD58YQc-_MyyaCc5YcPzahRjEn-pR7Qw'
         REGISTRY_FE = "slavayuhymchuk/tasks_fe"
         REGISTRY_BE = "slavayuhymchuk/tasks_be"
         REGISTRY_CRED = "dockerhub-accesstoken"
         VERSION_FE = "1.1" // to get from code
         VERSION_BE = "1.0" // to get from code
+        TELEGRAM_CHAT_ID = "5841993506"
     }
     stages {
         stage ("Build FE") {
@@ -67,13 +66,15 @@ pipeline {
         stage("Telegram TrivyScan Backend") {
             steps {
                 script {
+                    withCredentials([string(credentialsId: "TELEGRAM_TOKEN", variable: "TELEGRAM_TOKEN")]) {
                     // Send the tasks_fe file via Telegram
-                    sh """
-                    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument \
-                    -F chat_id=${TELEGRAM_CHAT_ID} \
-                    -F document=@TrivyScan_Backend.txt \
-                    -F caption="Trivy Scan Report - Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
-                    """
+                        sh """
+                        curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument \
+                        -F chat_id=${TELEGRAM_CHAT_ID} \
+                        -F document=@TrivyScan_Backend.txt \
+                        -F caption="Trivy Scan Report - Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
+                        """
+                    }
                 }
             }
         }
