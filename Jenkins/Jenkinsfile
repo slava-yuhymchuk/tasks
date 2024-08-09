@@ -145,6 +145,15 @@ pipeline {
                 } 
             }
         }
+        stage ("Cleanup") {
+            steps {
+                echo "Removing old untagged docker images"
+                script {
+                        sh "docker image prune"
+                    }
+                } 
+            }
+        }        
     }
     post {
         success {
