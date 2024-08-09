@@ -32,27 +32,29 @@ pipeline {
                 }
             }
         }
-        stage("Run Trivy Scan Frontend") {
+        stage("Run Trivy Scan FE") {
             steps {
+                echo "Running Trivy vulnerability scan on FE image"
                 script {
                     // Run Trivy scan and save output to file
                     sh "trivy image ${REGISTRY_FE}:${VERSION_FE} > TrivyScan_Frontend.txt"
                 }
             }
         }
-        stage("Run Trivy Scan Backend") {
+        stage("Run Trivy Scan BE") {
             steps {
+                echo "Running Trivy vulnerability scan on BE image"
                 script {
                     // Run Trivy scan and save output to file
                     sh "trivy image ${REGISTRY_BE}:${VERSION_BE} > TrivyScan_Backend.txt"
                 }
             }
         }
-        stage("Telegram TrivyScan Frontend") {
+        stage("Telegram Trivy Scan FE") {
             steps {
+                echo "Sending results of Trivy vulnerability scan on FE image via Telegram"
                 script {
                     withCredentials([string(credentialsId: "TELEGRAM_TOKEN", variable: "TELEGRAM_TOKEN")]) {
-                        // Send the tasks_fe file via Telegram
                         sh """
                         curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument \
                         -F chat_id=${TELEGRAM_CHAT_ID} \
@@ -63,11 +65,11 @@ pipeline {
                 }
             }
         }
-        stage("Telegram TrivyScan Backend") {
+        stage("Telegram Trivy Scan BE") {
             steps {
+                echo "Sending results of Trivy vulnerability scan on BE image via Telegram"
                 script {
                     withCredentials([string(credentialsId: "TELEGRAM_TOKEN", variable: "TELEGRAM_TOKEN")]) {
-                    // Send the tasks_fe file via Telegram
                         sh """
                         curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument \
                         -F chat_id=${TELEGRAM_CHAT_ID} \
@@ -82,7 +84,7 @@ pipeline {
             steps {
                 echo "Starting test for FE ${VERSION_FE} and BE ${VERSION_BE}"
                 script {
-                    // Create custom Docker network.
+                    // Create custom docker network
                     echo "Creating docker network"
                     sh "docker network create tasks"
                     // Run BE container
@@ -117,7 +119,7 @@ pipeline {
                     echo "Removing test containers"
                     sh "docker rm tasks-fe"
                     sh "docker rm tasks-be"
-                    // Remove the custom Docker network..
+                    // Remove the custom docker network
                     echo "Removing docker network"
                     sh "docker network rm tasks"
                 }
