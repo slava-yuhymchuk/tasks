@@ -34,7 +34,7 @@ pipeline {
         }
         stage("Run Trivy Scan FE") {
             steps {
-                echo "Running Trivy vulnerability scan on FE image"
+                echo "Running Trivy vulnerability scan on ${REGISTRY_FE}:${VERSION_FE}"
                 script {
                     // Run Trivy scan and save output to file
                     sh "trivy image ${REGISTRY_FE}:${VERSION_FE} > TrivyScan_Frontend.txt"
@@ -43,7 +43,7 @@ pipeline {
         }
         stage("Run Trivy Scan BE") {
             steps {
-                echo "Running Trivy vulnerability scan on BE image"
+                echo "Running Trivy vulnerability scan on ${REGISTRY_BE}:${VERSION_BE}"
                 script {
                     // Run Trivy scan and save output to file
                     sh "trivy image ${REGISTRY_BE}:${VERSION_BE} > TrivyScan_Backend.txt"
@@ -52,7 +52,7 @@ pipeline {
         }
         stage("Telegram Trivy Scan FE") {
             steps {
-                echo "Sending results of Trivy vulnerability scan on FE image via Telegram"
+                echo "Sending results of Trivy vulnerability scan on ${REGISTRY_FE}:${VERSION_FE} via Telegram"
                 script {
                     withCredentials([string(credentialsId: "TELEGRAM_TOKEN", variable: "TELEGRAM_TOKEN")]) {
                         sh """
@@ -67,7 +67,7 @@ pipeline {
         }
         stage("Telegram Trivy Scan BE") {
             steps {
-                echo "Sending results of Trivy vulnerability scan on BE image via Telegram"
+                echo "Sending results of Trivy vulnerability scan on ${REGISTRY_BE}:${VERSION_BE} via Telegram"
                 script {
                     withCredentials([string(credentialsId: "TELEGRAM_TOKEN", variable: "TELEGRAM_TOKEN")]) {
                         sh """
