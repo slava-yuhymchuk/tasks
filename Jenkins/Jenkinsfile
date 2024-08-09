@@ -149,7 +149,7 @@ pipeline {
             steps {
                 echo "Removing old untagged docker images"
                 script {
-                        sh "docker image prune -f"
+                    sh "docker image prune -f"
                 } 
             }
         }        
