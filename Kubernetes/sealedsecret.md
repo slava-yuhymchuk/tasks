@@ -8,7 +8,7 @@
   ```
 - `Create sealedsecret in tasks namespace:`
   ```bash
-  kubectl -n tasks create sealedsecret-openai-dev.yaml
+  kubectl -n tasks create -f sealedsecret-openai-dev.yaml
   ```
 - `Verify that sealedsecret was created in tasks namespace:`
   ```bash

@@ -1,5 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+- tasks-ns.yaml
+- tasks-cm.yaml
+- sealedsecret-openai-dev.yaml
 - tasks-be.yaml
 - tasks-fe.yaml
