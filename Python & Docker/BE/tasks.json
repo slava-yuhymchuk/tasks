@@ -16,13 +16,13 @@
             "ID": 3,
             "Title": "Call",
             "Details": "Sharon",
-            "Status": "New"
+            "Status": "Done"
         },
         {
             "ID": 4,
             "Title": "Write Jenkins CI/CD pipeline",
             "Details": "Should have at least Checkout, Build, Test and Deploy stages",
-            "Status": "New"
+            "Status": "Done"
         },
         {
             "ID": 5,
@@ -34,7 +34,7 @@
             "ID": 6,
             "Title": "Day vs Evening in Ljubljana Castle",
             "Details": "When should we visit Ljubljana Castle, during the day or in the evening?",
-            "Status": "New"
+            "Status": "Done"
         },
         {
             "ID": 7,
@@ -53,6 +53,24 @@
             "Title": "Play Diablo IV Season 5",
             "Details": "Necromancer",
             "Status": "New"
+        },
+        {
+            "ID": 10,
+            "Title": "Add Jenkins stage",
+            "Details": "Check image security",
+            "Status": "Done"
+        },
+        {
+            "ID": 11,
+            "Title": "Configure notifications in Jenkins",
+            "Details": "When stage fails or whole pipeline finishes notification should be sent",
+            "Status": "Done"
+        },        
+        {
+            "ID": 12,
+            "Title": "Add Telegram Notifications",
+            "Details": "For Pipeline POST actions",
+            "Status": "Done"
         }
     ]
 }
