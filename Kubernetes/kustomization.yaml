@@ -4,6 +4,7 @@ resources:
 - tasks-ns.yaml
 - tasks-cm.yaml
 - sealedsecret-openai-dev.yaml
-- sealedsecret-tls-dev.yaml
+- sealedsecret-tls-crt-dev.yaml
+- sealedsecret-tls-key-dev.yaml
 - tasks-be.yaml
 - tasks-fe.yaml
