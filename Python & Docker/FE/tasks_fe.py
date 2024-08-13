@@ -8,8 +8,6 @@ app = Flask(__name__)
 
 BE_URL = environ["BE_URL"]
 FE_PORT = environ["FE_PORT"]
-TLS_CRT = environ["tls.crt"]
-TLS_KEY = environ["tls.key"]
 
 @app.route("/")
 def home():
