@@ -8,6 +8,8 @@ app = Flask(__name__)
 
 BE_URL = environ["BE_URL"]
 FE_PORT = environ["FE_PORT"]
+TLS_CRT = environ["tls.crt"]
+TLS_KEY = environ["tls.key"]
 
 @app.route("/")
 def home():
@@ -127,4 +129,4 @@ def ai(id):
     except Exception as error: abort(400, error)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=FE_PORT, ssl_context=("cert.pem", "key.pem"))
+    app.run(host="0.0.0.0", port=FE_PORT, ssl_context=(TLS_CRT, TLS_KEY))

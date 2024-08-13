@@ -11,8 +11,6 @@ RUN pip install -r requirements.txt
 # Copy project files into the image
 COPY tasks_fe.py .
 COPY tasks_ai.py .
-COPY cert.pem .
-COPY key.pem .
 RUN mkdir -p /tasks/static
 RUN mkdir -p /tasks/static/images
 RUN mkdir -p /tasks/templates
