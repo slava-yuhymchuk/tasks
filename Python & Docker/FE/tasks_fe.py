@@ -129,4 +129,4 @@ def ai(id):
     except Exception as error: abort(400, error)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=FE_PORT, ssl_context=(TLS_CRT, TLS_KEY))
+    app.run(host="0.0.0.0", port=FE_PORT, ssl_context=("tls.crt", "tls.key"))
