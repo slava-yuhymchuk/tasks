@@ -92,7 +92,7 @@ pipeline {
                     sh "docker run -d --network tasks -p 5000:5000 --name tasks-be ${REGISTRY_BE}:${VERSION_BE}"
                     // Run FE container
                     echo "Starting FE container for testing"
-                    sh "docker run -d --network tasks -p 80:80 --env BE_URL=http://tasks-be:5000/be --env FE_PORT=80 --name tasks-fe ${REGISTRY_FE}:${VERSION_FE}"
+                    sh "docker run -d --network tasks -p 443:443 --env BE_URL=http://tasks-be:5000/be --env FE_PORT=443 --name tasks-fe ${REGISTRY_FE}:${VERSION_FE}"
                     // Back-End Test
                     echo "Running Back-End Tests"
                     try {
@@ -105,7 +105,7 @@ pipeline {
                     // Front-End Test
                     echo "Running Front-End Tests"
                     try {
-                        sh "curl http://localhost/tasks"
+                        sh "curl https://localhost/tasks"
                         echo "Front-End Test Passed"
                     }
                     catch (Exception e) {
