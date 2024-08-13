@@ -22,4 +22,4 @@ COPY templates/index.html /tasks/templates/
 
 # Configure the container to run
 CMD ["python3", "tasks_fe.py"]
-EXPOSE 80
+EXPOSE 443
