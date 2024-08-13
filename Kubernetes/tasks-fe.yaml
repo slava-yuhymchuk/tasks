@@ -31,10 +31,22 @@ spec:
         envFrom:
         - secretRef:
             name: secret-openai
-        - secretRef:
-            name: secret-tls
         - configMapRef:
             name: tasks-cm
+        volumeMounts:
+          - name: secret-volume-tls-crt
+            readOnly: true
+            mountPath: "/tasks/tls.crt"
+          - name: secret-volume-tls-key
+            readOnly: true
+            mountPath: "/tasks/tls.key"
+      volumes:
+        - name: secret-volume-tls-crt
+          secret:
+            secretName: secret-tls-crt
+        - name: secret-volume-tls-key
+          secret:
+            secretName: secret-tls-key
 ---
 apiVersion: v1
 kind: Service
