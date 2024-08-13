@@ -1,3 +1,3 @@
 kustomize:
   images:
-  - slavayuhymchuk/tasks_fe:1.2
+  - slavayuhymchuk/tasks_fe:1.3
