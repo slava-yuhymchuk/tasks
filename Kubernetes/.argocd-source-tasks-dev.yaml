@@ -1,3 +1,0 @@
-kustomize:
-  images:
-  - slavayuhymchuk/tasks_fe:1.2
