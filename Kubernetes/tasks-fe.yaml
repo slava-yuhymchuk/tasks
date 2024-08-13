@@ -31,6 +31,8 @@ spec:
         envFrom:
         - secretRef:
             name: secret-openai
+        - secretRef:
+            name: secret-tls
         - configMapRef:
             name: tasks-cm
 ---
