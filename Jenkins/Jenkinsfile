@@ -10,151 +10,158 @@ pipeline {
         TELEGRAM_CHAT_ID = "5841993506"
     }
     stages {
-        stage ("Build FE") {
-            steps {
-                echo "Building FE docker image ${VERSION_FE}"
-                dir ("Python & Docker/FE") {
-                    script {
-                        IMAGE_FE = docker.build REGISTRY_FE + ":${VERSION_FE}"
-                        IMAGE_FE_LATEST = docker.build REGISTRY_FE + ":latest"
+        stage('Check for Code Changes') {
+            when {
+                changeset "Python & Docker/**, Jenkins/**"
+            }
+            stages {
+                stage ("Build FE") {
+                    steps {
+                        echo "Building FE docker image ${VERSION_FE}"
+                        dir ("Python & Docker/FE") {
+                            script {
+                                IMAGE_FE = docker.build REGISTRY_FE + ":${VERSION_FE}"
+                                IMAGE_FE_LATEST = docker.build REGISTRY_FE + ":latest"
+                            }
+                        }
                     }
                 }
-            }
-        }
-        stage ("Build BE") {
-            steps {
-                echo "Building BE docker image ${VERSION_BE}"
-                dir ("Python & Docker/BE") {
-                    script {
-                        IMAGE_BE = docker.build REGISTRY_BE + ":${VERSION_BE}"
-                        IMAGE_BE_LATEST = docker.build REGISTRY_BE + ":latest"
+                stage ("Build BE") {
+                    steps {
+                        echo "Building BE docker image ${VERSION_BE}"
+                        dir ("Python & Docker/BE") {
+                            script {
+                                IMAGE_BE = docker.build REGISTRY_BE + ":${VERSION_BE}"
+                                IMAGE_BE_LATEST = docker.build REGISTRY_BE + ":latest"
+                            }
+                        }
                     }
                 }
-            }
-        }
-        stage("Run Trivy Scan FE") {
-            steps {
-                echo "Running Trivy vulnerability scan on ${REGISTRY_FE}:${VERSION_FE}"
-                script {
-                    // Run Trivy scan and save output to file
-                    sh "trivy image ${REGISTRY_FE}:${VERSION_FE} > TrivyScan_Frontend.txt"
-                }
-            }
-        }
-        stage("Run Trivy Scan BE") {
-            steps {
-                echo "Running Trivy vulnerability scan on ${REGISTRY_BE}:${VERSION_BE}"
-                script {
-                    // Run Trivy scan and save output to file
-                    sh "trivy image ${REGISTRY_BE}:${VERSION_BE} > TrivyScan_Backend.txt"
-                }
-            }
-        }
-        stage("Telegram Trivy Scan FE") {
-            steps {
-                echo "Sending results of Trivy vulnerability scan on ${REGISTRY_FE}:${VERSION_FE} via Telegram"
-                script {
-                    withCredentials([string(credentialsId: "TELEGRAM_TOKEN", variable: "TELEGRAM_TOKEN")]) {
-                        sh """
-                        curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument \
-                        -F chat_id=${TELEGRAM_CHAT_ID} \
-                        -F document=@TrivyScan_Frontend.txt \
-                        -F caption="Trivy Scan Report - Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
-                        """
+                stage("Run Trivy Scan FE") {
+                    steps {
+                        echo "Running Trivy vulnerability scan on ${REGISTRY_FE}:${VERSION_FE}"
+                        script {
+                            // Run Trivy scan and save output to file
+                            sh "trivy image ${REGISTRY_FE}:${VERSION_FE} > TrivyScan_Frontend.txt"
+                        }
                     }
                 }
-            }
-        }
-        stage("Telegram Trivy Scan BE") {
-            steps {
-                echo "Sending results of Trivy vulnerability scan on ${REGISTRY_BE}:${VERSION_BE} via Telegram"
-                script {
-                    withCredentials([string(credentialsId: "TELEGRAM_TOKEN", variable: "TELEGRAM_TOKEN")]) {
-                        sh """
-                        curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument \
-                        -F chat_id=${TELEGRAM_CHAT_ID} \
-                        -F document=@TrivyScan_Backend.txt \
-                        -F caption="Trivy Scan Report - Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
-                        """
+                stage("Run Trivy Scan BE") {
+                    steps {
+                        echo "Running Trivy vulnerability scan on ${REGISTRY_BE}:${VERSION_BE}"
+                        script {
+                            // Run Trivy scan and save output to file
+                            sh "trivy image ${REGISTRY_BE}:${VERSION_BE} > TrivyScan_Backend.txt"
+                        }
                     }
                 }
-            }
-        }
-        stage ("Test") {
-            steps {
-                echo "Starting test for FE ${VERSION_FE} and BE ${VERSION_BE}"
-                script {
-                    // Create custom docker network
-                    echo "Creating docker network"
-                    sh "docker network create tasks"
-                    // Run BE container
-                    echo "Starting BE container for testing"
-                    sh "docker run -d --network tasks -p 5000:5000 --name tasks-be ${REGISTRY_BE}:${VERSION_BE}"
-                    // Run FE container
-                    echo "Starting FE container for testing"
-                    sh "docker run -d --network tasks -p 443:443 --env BE_URL=http://tasks-be:5000/be --env FE_PORT=443 -v /tasks/tls-crt/tls.crt:/tasks/tls-crt/tls.crt -v /tasks/tls-key/tls.key:/tasks/tls-key/tls.key --name tasks-fe ${REGISTRY_FE}:${VERSION_FE}"
-                    // Back-End Test
-                    echo "Running Back-End Tests"
-                    try {
-                        sh "curl http://localhost:5000/be/read_file"
-                        echo "Back-End Test Passed"
+                stage("Telegram Trivy Scan FE") {
+                    steps {
+                        echo "Sending results of Trivy vulnerability scan on ${REGISTRY_FE}:${VERSION_FE} via Telegram"
+                        script {
+                            withCredentials([string(credentialsId: "TELEGRAM_TOKEN", variable: "TELEGRAM_TOKEN")]) {
+                                sh """
+                                curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument \
+                                -F chat_id=${TELEGRAM_CHAT_ID} \
+                                -F document=@TrivyScan_Frontend.txt \
+                                -F caption="Trivy Scan Report - Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
+                                """
+                            }
+                        }
                     }
-                    catch (Exception e) {
-                        echo "Back-End Test Failed"
-                    }
-                    // Front-End Test
-                    echo "Running Front-End Tests"
-                    try {
-                        sh "curl -k https://localhost/tasks"
-                        echo "Front-End Test Passed"
-                    }
-                    catch (Exception e) {
-                        echo "Front-End Test Failed"
-                    }
-                    // Stop the containers after tests
-                    echo "Stopping test containers"
-                    sh "docker stop tasks-fe"
-                    sh "docker stop tasks-be"
-                    // Remove the containers
-                    echo "Removing test containers"
-                    sh "docker rm tasks-fe"
-                    sh "docker rm tasks-be"
-                    // Remove the custom docker network
-                    echo "Removing docker network"
-                    sh "docker network rm tasks"
                 }
-            }
-        }
-        stage ("Push FE") {
-            steps {
-                echo "Pushing FE ${VERSION_FE} to Docker Hub"
-                script {
-                    docker.withRegistry("", REGISTRY_CRED) {
-                        IMAGE_FE.push()
-                        IMAGE_FE_LATEST.push()
+                stage("Telegram Trivy Scan BE") {
+                    steps {
+                        echo "Sending results of Trivy vulnerability scan on ${REGISTRY_BE}:${VERSION_BE} via Telegram"
+                        script {
+                            withCredentials([string(credentialsId: "TELEGRAM_TOKEN", variable: "TELEGRAM_TOKEN")]) {
+                                sh """
+                                curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument \
+                                -F chat_id=${TELEGRAM_CHAT_ID} \
+                                -F document=@TrivyScan_Backend.txt \
+                                -F caption="Trivy Scan Report - Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}"
+                                """
+                            }
+                        }
                     }
-                } 
-            }
-        }
-        stage ("Push BE") {
-            steps {
-                echo "Pushing BE ${VERSION_BE} to Docker Hub"
-                script {
-                    docker.withRegistry("", REGISTRY_CRED) {
-                        IMAGE_BE.push()
-                        IMAGE_BE_LATEST.push()
+                }
+                stage ("Test") {
+                    steps {
+                        echo "Starting test for FE ${VERSION_FE} and BE ${VERSION_BE}"
+                        script {
+                            // Create custom docker network
+                            echo "Creating docker network"
+                            sh "docker network create tasks"
+                            // Run BE container
+                            echo "Starting BE container for testing"
+                            sh "docker run -d --network tasks -p 5000:5000 --name tasks-be ${REGISTRY_BE}:${VERSION_BE}"
+                            // Run FE container
+                            echo "Starting FE container for testing"
+                            sh "docker run -d --network tasks -p 443:443 --env BE_URL=http://tasks-be:5000/be --env FE_PORT=443 -v /tasks/tls-crt/tls.crt:/tasks/tls-crt/tls.crt -v /tasks/tls-key/tls.key:/tasks/tls-key/tls.key --name tasks-fe ${REGISTRY_FE}:${VERSION_FE}"
+                            // Back-End Test
+                            echo "Running Back-End Tests"
+                            try {
+                                sh "curl http://localhost:5000/be/read_file"
+                                echo "Back-End Test Passed"
+                            }
+                            catch (Exception e) {
+                                echo "Back-End Test Failed"
+                            }
+                            // Front-End Test
+                            echo "Running Front-End Tests"
+                            try {
+                                sh "curl -k https://localhost/tasks"
+                                echo "Front-End Test Passed"
+                            }
+                            catch (Exception e) {
+                                echo "Front-End Test Failed"
+                            }
+                            // Stop the containers after tests
+                            echo "Stopping test containers"
+                            sh "docker stop tasks-fe"
+                            sh "docker stop tasks-be"
+                            // Remove the containers
+                            echo "Removing test containers"
+                            sh "docker rm tasks-fe"
+                            sh "docker rm tasks-be"
+                            // Remove the custom docker network
+                            echo "Removing docker network"
+                            sh "docker network rm tasks"
+                        }
                     }
-                } 
+                }
+                stage ("Push FE") {
+                    steps {
+                        echo "Pushing FE ${VERSION_FE} to Docker Hub"
+                        script {
+                            docker.withRegistry("", REGISTRY_CRED) {
+                                IMAGE_FE.push()
+                                IMAGE_FE_LATEST.push()
+                            }
+                        } 
+                    }
+                }
+                stage ("Push BE") {
+                    steps {
+                        echo "Pushing BE ${VERSION_BE} to Docker Hub"
+                        script {
+                            docker.withRegistry("", REGISTRY_CRED) {
+                                IMAGE_BE.push()
+                                IMAGE_BE_LATEST.push()
+                            }
+                        } 
+                    }
+                }
+                stage ("Cleanup") {
+                    steps {
+                        echo "Removing old untagged docker images"
+                        script {
+                            sh "docker image prune -f"
+                        } 
+                    }
+                }        
             }
         }
-        stage ("Cleanup") {
-            steps {
-                echo "Removing old untagged docker images"
-                script {
-                    sh "docker image prune -f"
-                } 
-            }
-        }        
     }
     post {
         success {
