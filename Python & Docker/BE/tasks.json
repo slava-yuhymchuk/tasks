@@ -71,6 +71,30 @@
             "Title": "Add Telegram Notifications",
             "Details": "For Pipeline POST actions",
             "Status": "Done"
+        },
+        {
+            "ID": 13,
+            "Title": "Add argocd-image-updater readme",
+            "Details": "In Kubernetes folder",
+            "Status": "New"
+        },
+        {
+            "ID": 14,
+            "Title": "Deploy SSH keys in Github",
+            "Details": "Should be per repository",
+            "Status": "New"
+        },
+        {
+            "ID": 15,
+            "Title": "Add TLS certificate",
+            "Details": "Front-End pod should liste on port 443. Should be implemented with sealed secrets.",
+            "Status": "Done"
+        },
+        {
+            "ID": 16,
+            "Title": "Deploy additional environment with Terraform",
+            "Details": "Infrastructure, EKS, Jenkins, ArgoCD",
+            "Status": "New"
         }
     ]
 }
