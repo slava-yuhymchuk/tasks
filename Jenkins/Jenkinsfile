@@ -9,7 +9,7 @@ pipeline {
         TELEGRAM_CHAT_ID = "5841993506"
     }
     stages {
-        stage('Check for Code Changes') {
+        stage("Check for Code Changes") {
             when {
                 anyOf {
                     changeset "**/Python & Docker/**"
