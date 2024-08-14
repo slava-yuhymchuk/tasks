@@ -14,7 +14,7 @@
   ```bash
   kubectl -n tasks get sealedsecret secret-openai -o yaml
   ```
-- `Verify that regular secret was create in tasks namespace:`
+- `Verify that regular secret was created in tasks namespace:`
   ```bash
   kubectl -n tasks get secret secret-openai -o yaml
   ```
