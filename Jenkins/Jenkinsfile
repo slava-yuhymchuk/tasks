@@ -89,7 +89,7 @@ pipeline {
                     steps {
                         echo "Starting test for FE ${VERSION_FE} and BE ${VERSION_BE}"
                         script {
-                            // Create custom docker network
+                            // Create custom docker network.
                             echo "Creating docker network"
                             sh "docker network create tasks"
                             // Run BE container
