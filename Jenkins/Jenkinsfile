@@ -1,7 +1,6 @@
 pipeline {
     agent any
     environment {
-        // CODE_CNANGE = getGitChanges()
         REGISTRY_FE = "slavayuhymchuk/tasks_fe"
         REGISTRY_BE = "slavayuhymchuk/tasks_be"
         REGISTRY_CRED = "dockerhub-accesstoken"
