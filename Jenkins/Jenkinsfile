@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Check for Code Changes') {
             when {
-                changeset "**/Python & Docker/FE/**, **/Python & Docker/BE/**, **/Jenkins/**"
+                changeset "**/Python & Docker/FE/**"
             }
             stages {
                 stage ("Build FE") {
