@@ -10,10 +10,10 @@ pipeline {
         TELEGRAM_CHAT_ID = "5841993506"
     }
     stages {
-        when {
-            changeset "Python & Docker/**, Jenkins/**"
-        }
         stage ("Build FE") {
+            when {
+                changeset "Python & Docker/**, Jenkins/**"
+            }
             steps {
                 echo "Building FE docker image ${VERSION_FE}"
                 dir ("Python & Docker/FE") {
