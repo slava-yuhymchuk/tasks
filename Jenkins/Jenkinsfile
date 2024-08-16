@@ -20,14 +20,14 @@ pipeline {
                 stage("Extract Versions") {
                     steps {
                         script {
-                            def versionScript = """
+                            def versionScript = '''
                                 FE_FILE="Python & Docker/FE/tasks_fe.py"
                                 BE_FILE="Python & Docker/BE/tasks_be.py"
-                                VERSION_FE=$(head -n 1 $FE_FILE | grep -oP "(?<=# v)[0-9]+\.[0-9]+")
-                                VERSION_BE=$(head -n 1 $BE_FILE | grep -oP "(?<=# v)[0-9]+\.[0-9]+")
+                                VERSION_FE=$(head -n 1 $FE_FILE | awk '{print $2}' | cut -c2-)
+                                VERSION_BE=$(head -n 1 $BE_FILE | awk '{print $2}' | cut -c2-)
                                 echo "VERSION_FE=$VERSION_FE"
                                 echo "VERSION_BE=$VERSION_BE"
-                            """
+                            '''
                             def output = sh(script: versionScript, returnStdout: true).trim()
                             env.VERSION_FE = output.split('\n')[0].split('=')[1]
                             env.VERSION_BE = output.split('\n')[1].split('=')[1]
