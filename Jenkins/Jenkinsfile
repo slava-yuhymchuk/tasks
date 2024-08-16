@@ -21,10 +21,10 @@ pipeline {
                     steps {
                         script {
                             def versionScript = '''
-                                FE_FILE=''Python & Docker/FE/tasks_fe.py''
-                                BE_FILE=''Python & Docker/BE/tasks_be.py''
-                                VERSION_FE=$(head -n 1 $FE_FILE | awk '{print $2}' | cut -c2-)
-                                VERSION_BE=$(head -n 1 $BE_FILE | awk '{print $2}' | cut -c2-)
+                                FE_FILE="Python & Docker/FE/tasks_fe.py"
+                                BE_FILE="Python & Docker/BE/tasks_be.py"
+                                VERSION_FE=$(head -n 1 "$FE_FILE" | awk '{print $2}' | cut -c2-)
+                                VERSION_BE=$(head -n 1 "$BE_FILE" | awk '{print $2}' | cut -c2-)
                                 echo "VERSION_FE=$VERSION_FE"
                                 echo "VERSION_BE=$VERSION_BE"
                             '''
