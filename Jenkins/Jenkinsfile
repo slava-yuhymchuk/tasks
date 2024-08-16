@@ -25,12 +25,13 @@ pipeline {
                                 BE_FILE="Python & Docker/BE/tasks_be.py"
                                 VERSION_FE=$(head -n 1 "$FE_FILE" | awk '{print $2}' | cut -c2-)
                                 VERSION_BE=$(head -n 1 "$BE_FILE" | awk '{print $2}' | cut -c2-)
-                                echo "VERSION_FE=$VERSION_FE"
-                                echo "VERSION_BE=$VERSION_BE"
+                                echo VERSION_FE=$VERSION_FE
+                                echo VERSION_BE=$VERSION_BE
                             '''
                             def output = sh(script: versionScript, returnStdout: true).trim()
-                            env.VERSION_FE = output.split('\n')[0].split('=')[1]
-                            env.VERSION_BE = output.split('\n')[1].split('=')[1]
+                            def lines = output.split('\n')
+                            env.VERSION_FE = lines.find { it.startsWith('VERSION_FE=') }?.split('=')[1]
+                            env.VERSION_BE = lines.find { it.startsWith('VERSION_BE=') }?.split('=')[1]
                         }
                         echo "Extracted VERSION_FE: ${env.VERSION_FE}"
                         echo "Extracted VERSION_BE: ${env.VERSION_BE}"
