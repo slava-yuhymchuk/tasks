@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/slava-yuhymchuk/tasks'
-    path: 'Kubernetes/kustomization-dev.yaml'
+    path: 'Kubernetes/overlays/dev'
     targetRevision: dev
     kustomize:
       namePrefix: dev-
