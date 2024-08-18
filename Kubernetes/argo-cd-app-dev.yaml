@@ -9,8 +9,6 @@ spec:
     repoURL: 'https://github.com/slava-yuhymchuk/tasks'
     path: 'Kubernetes/overlays/dev'
     targetRevision: dev
-    kustomize:
-      namePrefix: dev-
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: default
