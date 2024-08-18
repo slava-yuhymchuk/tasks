@@ -1,6 +1,5 @@
 resources:
-  - ../../
-  - ../../sealedsecret-openai-dev.yaml
-  - ../../sealedsecret-tls-crt-dev.yaml
-  - ../../sealedsecret-tls-key-dev.yaml
-  
+  - ../
+  - ../sealedsecret-openai-dev.yaml
+  - ../sealedsecret-tls-crt-dev.yaml
+  - ../sealedsecret-tls-key-dev.yaml
