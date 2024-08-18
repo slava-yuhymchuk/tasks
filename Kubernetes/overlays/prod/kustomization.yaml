@@ -1,0 +1,6 @@
+resources:
+  - ../../
+  - ../../sealedsecret-openai-prod.yaml
+  - ../../sealedsecret-tls-crt-prod.yaml
+  - ../../sealedsecret-tls-key-prod.yaml
+  
