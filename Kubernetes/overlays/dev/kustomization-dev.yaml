@@ -6,8 +6,5 @@ resources:
 - sealedsecret-openai-dev.yaml
 - sealedsecret-tls-crt-dev.yaml
 - sealedsecret-tls-key-dev.yaml
-# - sealedsecret-openai-prod.yaml
-# - sealedsecret-tls-crt-prod.yaml
-# - sealedsecret-tls-key-prod.yaml
 - ../../tasks-be.yaml
 - ../../tasks-fe.yaml
