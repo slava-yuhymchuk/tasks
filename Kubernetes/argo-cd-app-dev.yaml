@@ -11,7 +11,7 @@ spec:
     targetRevision: dev
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: default
+    namespace: tasks
   syncPolicy:
     automated:
       prune: true
