@@ -3,213 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Management</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script>
-        /* VERSION */
-        const version = "v1.3";
-
-        document.addEventListener("DOMContentLoaded", () => {
-            fetchTasks();
-            document.getElementById('versionInfo').innerText = version;
-        });
-
-        document.addEventListener("click", function(event) {
-            if (!event.target.matches('.dropdown button')) {
-                hideDropdowns();
-            }
-        });
-
-        function fetchTasks() {
-            fetch('/tasks')
-                .then(response => response.json())
-                .then(data => {
-                    const tbody = document.querySelector('tbody');
-                    tbody.innerHTML = '';
-                    data.tasks.forEach(task => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td class="actions-column">
-                                <div class="dropdown">
-                                    <button onclick="toggleDropdown(${task.ID}, event)">...</button>
-                                    <div id="dropdown-${task.ID}" class="dropdown-content">
-                                        <a href="#" onclick="markTaskDone(${task.ID})">Done!</a>
-                                        <a href="#" onclick="showUpdateTaskForm(${task.ID})">Update</a>
-                                        <a href="#" onclick="deleteTask(${task.ID})">Delete</a>
-                                        <a href="#" onclick="askChatGPT(${task.ID})">Ask ChatGPT</a>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>${task.Title}</td>
-                            <td>${task.Details}</td>
-                            <td>${task.Status}</td>
-                        `;
-                        tbody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Error fetching tasks:', error));
+    <title>Cheers</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
         }
-
-        function hideDropdowns() {
-            document.querySelectorAll('.dropdown-content').forEach(el => el.style.display = 'none');
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        function toggleDropdown(id, event) {
-            const dropdown = document.getElementById(`dropdown-${id}`);
-            const isVisible = dropdown.style.display === 'block';
-            hideDropdowns();
-            dropdown.style.display = isVisible ? 'none' : 'block';
-            event.stopPropagation();
-        }
-
-        function markTaskDone(id) {
-            fetch(`/tasks/${id}/done`, {
-                method: 'POST'
-            })
-            .then(response => response.json())
-            .then(() => fetchTasks())
-            .catch(error => console.error('Error marking task as done:', error));
-        }
-
-        function deleteTask(id) {
-            fetch(`/tasks/${id}`, {
-                method: 'DELETE'
-            })
-            .then(response => response.json())
-            .then(() => fetchTasks())
-            .catch(error => console.error('Error deleting task:', error));
-        }
-
-        function showNewTaskForm() {
-            document.getElementById('taskForm').reset();
-            document.getElementById('taskModal').style.display = 'block';
-            document.getElementById('taskFormButton').textContent = 'Add Task';
-            document.getElementById('taskForm').onsubmit = addTask;
-        }
-
-        function hideTaskForm() {
-            document.getElementById('taskModal').style.display = 'none';
-        }
-
-        function addTask(event) {
-            event.preventDefault();
-            const title = document.getElementById('taskTitle').value;
-            const details = document.getElementById('taskDetails').value;
-            fetch('/tasks', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ Title: title, Details: details })
-            })
-            .then(response => response.json())
-            .then(() => {
-                hideTaskForm();
-                fetchTasks();
-            })
-            .catch(error => console.error('Error adding task:', error));
-        }
-
-        function showUpdateTaskForm(id) {
-            fetch(`/tasks/${id}`)
-                .then(response => response.json())
-                .then(task => {
-                    document.getElementById('taskTitle').value = task.Title;
-                    document.getElementById('taskDetails').value = task.Details;
-                    document.getElementById('taskId').value = task.ID;
-                    document.getElementById('taskModal').style.display = 'block';
-                    document.getElementById('taskFormButton').textContent = 'Update Task';
-                    document.getElementById('taskForm').onsubmit = function(event) {
-                        updateTask(event, id);
-                    };
-                })
-                .catch(error => console.error('Error fetching task:', error));
-        }
-
-        function updateTask(event, id) {
-            event.preventDefault();
-            const title = document.getElementById('taskTitle').value;
-            const details = document.getElementById('taskDetails').value;
-            fetch(`/tasks/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ Title: title, Details: details, Status: 'New' })
-            })
-            .then(response => response.json())
-            .then(() => {
-                hideTaskForm();
-                fetchTasks();
-            })
-            .catch(error => console.error('Error updating task:', error));
-        }
-
-        function askChatGPT(id) {
-            document.getElementById('chatGPTResponse').innerText = 'Waiting for response from ChatGPT...';
-            document.getElementById('chatGPTModal').style.display = 'block';
-
-            fetch(`/tasks/${id}/ai`)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('chatGPTResponse').innerText = data;
-                })
-                .catch(error => {
-                    document.getElementById('chatGPTResponse').innerText = 'Error fetching response from ChatGPT';
-                    console.error('Error asking ChatGPT:', error);
-                });
-        }
-
-        function hideChatGPTModal() {
-            document.getElementById('chatGPTModal').style.display = 'none';
-        }
-    </script>
+    </style>
 </head>
 <body>
-    <div id="taskModal">
-        <div class="modal-content">
-            <span class="close" onclick="hideTaskForm()">&times;</span>
-            <h2>Task</h2>
-            <form id="taskForm" onsubmit="addTask(event)">
-                <label for="taskTitle">Title:</label>
-                <input type="text" id="taskTitle" name="Title" required><br><br>
-                <label for="taskDetails">Details:</label>
-                <textarea id="taskDetails" name="Details" required></textarea><br><br>
-                <input type="hidden" id="taskId" name="ID">
-                <button id="taskFormButton" type="submit">Add Task</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="chatGPTModal">
-        <div class="modal-content">
-            <span class="close" onclick="hideChatGPTModal()">&times;</span>
-            <h2>ChatGPT response:</h2>
-            <p id="chatGPTResponse">Waiting for response from ChatGPT...</p>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="sidebar">
-            <button onclick="showNewTaskForm()">New Task</button>
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Task Management Logo" style="width:100%; margin-top: 20px;">
-            <p id="versionInfo" style="text-align: center; font-size: small;"></p>
-        </div>
-        <div class="content">
-            <h1>Tasks</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Title</th>
-                        <th>Details</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <img src="../static/images/photo.jpg" alt="Displayed Image">
 </body>
 </html>
