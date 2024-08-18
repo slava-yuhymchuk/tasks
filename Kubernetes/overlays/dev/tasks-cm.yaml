@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: tasks-cm
-  namespace: tasks
-data:
-  BE_URL: "http://tasks-be:5000/be"
-  FE_PORT: "443"
