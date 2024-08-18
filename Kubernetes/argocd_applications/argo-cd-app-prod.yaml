@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: my-app-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/slava-yuhymchuk/tasks'
+    path: 'Kubernetes/overlays/prod'
+    targetRevision: prod
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: tasks
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
