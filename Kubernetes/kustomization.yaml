@@ -3,8 +3,8 @@ kind: Kustomization
 resources:
 - tasks-ns.yaml
 - tasks-cm.yaml
-- sealedsecret-openai-dev.yaml
-- sealedsecret-tls-crt-dev.yaml
-- sealedsecret-tls-key-dev.yaml
+- sealedsecret-openai.yaml
+- sealedsecret-tls-crt.yaml
+- sealedsecret-tls-key.yaml
 - tasks-be.yaml
 - tasks-fe.yaml
