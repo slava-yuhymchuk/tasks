@@ -79,7 +79,9 @@ pipeline {
                     steps {
                         echo "Sending results of Trivy vulnerability scan on ${REGISTRY_FE}:${VERSION_FE} via Slack"
                         script {
-                            sh "curl -X POST -H 'Content-type: application/json' --data '{"text":"Pizdec"}' https://hooks.slack.com/services/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"
+                            sh """
+                            curl -X POST -H 'Content-type: application/json' --data '{"text":"Pizdec"}' https://hooks.slack.com/services/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
+                            """
                         }
                     }
                 }
