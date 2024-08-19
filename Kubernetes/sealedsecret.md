@@ -25,7 +25,7 @@
   export PRIVATEKEY="tls.key"
   export PUBLICKEY="tls.crt"
   export NAMESPACE="kube-system"
-  export SECRETNAME="secret-openai"
+  export SECRETNAME="tasks"
   ```
   - `Create a TLS K8s secret using your own RSA key pair:`
   ```bash
