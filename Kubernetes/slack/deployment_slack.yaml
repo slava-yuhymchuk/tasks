@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: slackin
-          image: rauchg/slackin
+          image: kasmweb/slack
           ports:
             - containerPort: 3000
           env:
