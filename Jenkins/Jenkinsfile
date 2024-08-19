@@ -75,16 +75,19 @@ pipeline {
                         }
                     }
                 }
-                stage("Slack test") {
+                stage('Send Slack Message') {
                     steps {
-                        echo "Sending results of Trivy vulnerability scan on ${REGISTRY_FE}:${VERSION_FE} via Slack"
+                        echo "Sending a simple message to Slack"
                         script {
-                            sh """
-                            curl -X POST -H 'Content-type: application/json' --data '{"text":"Pizdec"}' https://hooks.slack.com/services/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
-                            """
+                            withCredentials([string(credentialsId: 'SLACK_WEBHOOK_URL', variable: 'SLACK_WEBHOOK_URL')]) {
+                                sh """
+                                curl -X POST -H 'Content-type: application/json' --data '{"text":"Pizdec From Pipeline DEV, Thats shit DINGO!"}' ${SLACK_WEBHOOK_URL}
+                                """
+                            }
                         }
                     }
                 }
+
                 stage("Telegram Trivy Scan FE") {
                     steps {
                         echo "Sending results of Trivy vulnerability scan on ${REGISTRY_FE}:${VERSION_FE} via Telegram"
