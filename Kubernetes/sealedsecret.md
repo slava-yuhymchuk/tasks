@@ -19,6 +19,8 @@
   kubectl -n tasks get secret secret-openai -o yaml
   ```
 
+
+
 - `Import existing certificate to the controller:`
   - `Set variables:`
   ```bash
