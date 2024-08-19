@@ -1,7 +1,7 @@
 ## Web UI
 
 - `DEV` : https://a40a6e819703c428393dbfea52cf9912-1570523554.il-central-1.elb.amazonaws.com/
-- `PROD` : soon
+- `PROD` : https://a67dd5a6c6256461a98d6ee9e90f6410-1398421436.il-central-1.elb.amazonaws.com/
 
 ## API Endpoints
 
