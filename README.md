@@ -1,3 +1,5 @@
+![DevOps.jpg](https://github.com/slava-yuhymchuk/tasks/blob/main/DevOps.jpg)
+
 ## Web UI
 
 - `DEV` : https://tasks-dev.devsecops15.com/
