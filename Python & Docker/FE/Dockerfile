@@ -15,6 +15,7 @@ RUN mkdir -p /tasks/static
 RUN mkdir -p /tasks/static/images
 RUN mkdir -p /tasks/templates
 COPY static/styles.css /tasks/static/
+COPY static/favicon.ico /tasks/static/
 COPY static/images/logo.png /tasks/static/images/
 COPY static/images/photo.jpg /tasks/static/images/
 COPY templates/index.html /tasks/templates/
