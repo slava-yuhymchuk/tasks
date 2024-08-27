@@ -63,6 +63,18 @@ pipeline {
                         script {
                             // Run Trivy scan and save output to file
                             sh "trivy image ${REGISTRY_FE}:${VERSION_FE} > TrivyScan_Frontend.txt"
+                            
+                            // Upload the Trivy scan report to Slack
+                            withCredentials([string(credentialsId: 'SLACK_API_TOKEN', variable: 'SLACK_API_TOKEN')]) {
+                                sh """
+                                curl -F file=@TrivyScan_Frontend.txt \
+                                    -F channels=#your-slack-channel \
+                                    -F title="Trivy Scan Report - Frontend" \
+                                    -F initial_comment="Trivy Scan Report for ${REGISTRY_FE}:${VERSION_FE}" \
+                                    -F token=${SLACK_API_TOKEN} \
+                                    https://slack.com/api/files.upload
+                                """
+                            }
                         }
                     }
                 }
