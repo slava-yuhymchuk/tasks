@@ -87,7 +87,7 @@ pipeline {
                         }
                     }
                 }
-                stage("Telegram Trivy Scan FE") {
+               stage("Telegram Trivy Scan FE") {
                     steps {
                         echo "Sending results of Trivy vulnerability scan on ${REGISTRY_FE}:${VERSION_FE} via Telegram and Slack"
                         script {
@@ -103,12 +103,17 @@ pipeline {
                             // Send via Slack
                             withCredentials([string(credentialsId: 'SLACK_WEBHOOK_URL', variable: 'SLACK_WEBHOOK_URL')]) {
                                 sh """
-                                curl -F file=@TrivyScan_Frontend.txt -F "initial_comment=Trivy Scan Report for Frontend - Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}" -F channels=#devsecops15 -H "Authorization: Bearer ${SLACK_WEBHOOK_URL}" https://slack.com/api/files.upload
+                                curl -s -F file=@TrivyScan_Frontend.txt \
+                                -F "initial_comment=Trivy Scan Report for Frontend - Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME}" \
+                                -F channels=#devsecops15 \
+                                -H "Authorization: Bearer ${SLACK_WEBHOOK_URL}" \
+                                https://slack.com/api/files.upload
                                 """
                             }
                         }
                     }
                 }
+
                 stage("Telegram Trivy Scan BE") {
                     steps {
                         echo "Sending results of Trivy vulnerability scan on ${REGISTRY_BE}:${VERSION_BE} via Telegram"
