@@ -28,7 +28,7 @@
             "ID": 5,
             "Title": "Clean Scom Alerts",
             "Details": "WE want to spoil the Scom console and make it clean",
-            "Status": "New"
+            "Status": "Done"
         },
         {
             "ID": 6,
@@ -87,14 +87,26 @@
         {
             "ID": 15,
             "Title": "Add TLS certificate",
-            "Details": "Front-End pod should liste on port 443. Should be implemented with sealed secrets.",
+            "Details": "Front-End pod should listen on port 443. Should be implemented with sealed secrets.",
             "Status": "Done"
         },
         {
             "ID": 16,
             "Title": "Deploy additional environment with Terraform",
             "Details": "Infrastructure, EKS, Jenkins, ArgoCD",
-            "Status": "New"
+            "Status": "Done"
+        },
+        {
+            "ID": 17,
+            "Title": "Add Check for Code Changes stage",
+            "Details": "The pipeline should run only when there is a change in code",
+            "Status": "Done"
+        },
+        {
+            "ID": 18,
+            "Title": "Add Extract Versions stage",
+            "Details": "The FE and BE code versions should be dynamically extracted from the code",
+            "Status": "Done"
         }
     ]
 }

@@ -81,7 +81,7 @@ pipeline {
                         script {
                             withCredentials([string(credentialsId: 'SLACK_WEBHOOK_URL', variable: 'SLACK_WEBHOOK_URL')]) {
                                 sh """
-                                curl -X POST -H 'Content-type: application/json' --data '{"text":"Pipeline DEV, Thats shit DINGO! Build:${env.BUILD_ID} "}' ${SLACK_WEBHOOK_URL}
+                                curl -X POST -H 'Content-type: application/json' --data '{"text":"Pizdec From Pipeline DEV, Thats shit DINGO!"}' ${SLACK_WEBHOOK_URL}
                                 """
                             }
                         }
