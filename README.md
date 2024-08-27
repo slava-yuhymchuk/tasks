@@ -1,4 +1,6 @@
-![DevOps.jpg](https://github.com/slava-yuhymchuk/tasks/blob/main/DevOps.jpg)
+
+![image](https://github.com/user-attachments/assets/5d68e8a5-a780-4509-80d0-4eee242d6c7f)
+
 
 ## Web UI
 
