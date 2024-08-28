@@ -15,6 +15,18 @@ pipeline {
                 }
             }
             stages {
+                stage('Start Notification to Slack') {
+                    steps {
+                        echo "Sending a simple message to Slack"
+                        script {
+                            withCredentials([string(credentialsId: 'SLACK_WEBHOOK_URL', variable: 'SLACK_WEBHOOK_URL')]) {
+                                sh """
+                                curl -X POST -H 'Content-type: application/json' --data '{"text":"Pipeline Build:${env.BUILD_ID} Name:${env.JOB_NAME} Started"}' ${SLACK_WEBHOOK_URL}
+                                """
+                            }
+                        }
+                    }
+                }
                 stage("Extract Versions") {
                     steps {
                         script {
@@ -75,18 +87,24 @@ pipeline {
                         }
                     }
                 }
-                stage('Start Notification to Slack') {
+
+                stage('Upload File to Slack') {
                     steps {
-                        echo "Sending a simple message to Slack"
                         script {
-                            withCredentials([string(credentialsId: 'SLACK_WEBHOOK_URL', variable: 'SLACK_WEBHOOK_URL')]) {
-                                sh """
-                                curl -X POST -H 'Content-type: application/json' --data '{"text":"Pipeline Build:${env.BUILD_ID} Name:${env.JOB_NAME} Started"}' ${SLACK_WEBHOOK_URL}
-                                """
-                            }
+                            sh '''
+                            curl -F file=@TrivyScan_Backend.txt \
+                                -F "initial_comment=Here is the file you requested from the pipeline." \
+                                -F channels="C07J7EV0740" \
+                                -F filename="TrivyScan_Backend.txt" \
+                                -F title="TrivyScan_Backend" \
+                                -H "Authorization: Bearer ${SLACK_WEBHOOK_URL}" \
+                                https://slack.com/api/files.upload
+                            '''
                         }
                     }
                 }
+
+
                 stage("Telegram Trivy Scan FE") {
                     steps {
                         echo "Sending results of Trivy vulnerability scan on ${REGISTRY_FE}:${VERSION_FE} via Telegram"
