@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,9 +14,10 @@
         document.addEventListener("DOMContentLoaded", () => {
             fetchTasks();
             document.getElementById('versionInfo').innerText = version;
+            loadThemePreference();
         });
 
-        document.addEventListener("click", function(event) {
+        document.addEventListener("click", function (event) {
             if (!event.target.matches('.dropdown button')) {
                 hideDropdowns();
             }
@@ -67,18 +69,18 @@
             fetch(`/tasks/${id}/done`, {
                 method: 'POST'
             })
-            .then(response => response.json())
-            .then(() => fetchTasks())
-            .catch(error => console.error('Error marking task as done:', error));
+                .then(response => response.json())
+                .then(() => fetchTasks())
+                .catch(error => console.error('Error marking task as done:', error));
         }
 
         function deleteTask(id) {
             fetch(`/tasks/${id}`, {
                 method: 'DELETE'
             })
-            .then(response => response.json())
-            .then(() => fetchTasks())
-            .catch(error => console.error('Error deleting task:', error));
+                .then(response => response.json())
+                .then(() => fetchTasks())
+                .catch(error => console.error('Error deleting task:', error));
         }
 
         function showNewTaskForm() {
@@ -103,12 +105,12 @@
                 },
                 body: JSON.stringify({ Title: title, Details: details })
             })
-            .then(response => response.json())
-            .then(() => {
-                hideTaskForm();
-                fetchTasks();
-            })
-            .catch(error => console.error('Error adding task:', error));
+                .then(response => response.json())
+                .then(() => {
+                    hideTaskForm();
+                    fetchTasks();
+                })
+                .catch(error => console.error('Error adding task:', error));
         }
 
         function showUpdateTaskForm(id) {
@@ -120,7 +122,7 @@
                     document.getElementById('taskId').value = task.ID;
                     document.getElementById('taskModal').style.display = 'block';
                     document.getElementById('taskFormButton').textContent = 'Update Task';
-                    document.getElementById('taskForm').onsubmit = function(event) {
+                    document.getElementById('taskForm').onsubmit = function (event) {
                         updateTask(event, id);
                     };
                 })
@@ -138,12 +140,12 @@
                 },
                 body: JSON.stringify({ Title: title, Details: details, Status: 'New' })
             })
-            .then(response => response.json())
-            .then(() => {
-                hideTaskForm();
-                fetchTasks();
-            })
-            .catch(error => console.error('Error updating task:', error));
+                .then(response => response.json())
+                .then(() => {
+                    hideTaskForm();
+                    fetchTasks();
+                })
+                .catch(error => console.error('Error updating task:', error));
         }
 
         function askChatGPT(id) {
@@ -164,8 +166,24 @@
         function hideChatGPTModal() {
             document.getElementById('chatGPTModal').style.display = 'none';
         }
+
+        /* Dark Mode Script */
+        function toggleDarkMode() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            const isDarkMode = body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+        }
+
+        function loadThemePreference() {
+            const isDarkMode = JSON.parse(localStorage.getItem('darkMode'));
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+            }
+        }
     </script>
 </head>
+
 <body>
     <div id="taskModal">
         <div class="modal-content">
@@ -193,7 +211,9 @@
     <div class="container">
         <div class="sidebar">
             <button onclick="showNewTaskForm()">New Task</button>
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Task Management Logo" style="width:100%; margin-top: 20px;">
+            <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Task Management Logo"
+                style="width:100%; margin-top: 20px;">
             <p id="versionInfo" style="text-align: center; font-size: small;"></p>
         </div>
         <div class="content">
@@ -213,4 +233,5 @@
         </div>
     </div>
 </body>
+
 </html>
