@@ -204,6 +204,16 @@ pipeline {
                 curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_CHAT_ID} -d text="Pipeline Completed Successfully Build_ID:${env.BUILD_ID} Name:${env.JOB_NAME} "
                 """
             }
+
+            withCredentials([string(credentialsId: 'SLACK_WEBHOOK_URL', variable: 'SLACK_WEBHOOK_URL')]) {
+            sh """
+            curl -X POST -H 'Content-type: application/json' --data '{"text":" Pipeline ${env.JOB_NAME}, Build_ID:${env.BUILD_ID} Completed Successfully"}' ${SLACK_WEBHOOK_URL}
+            """
+            }
+        }
+
+
+
         }
         failure {
             withCredentials([string(credentialsId: "TELEGRAM_TOKEN", variable: "TELEGRAM_TOKEN")]) {
@@ -213,7 +223,17 @@ pipeline {
             }
         }
         always {
-            echo "Finished pipeline"
+        echo "Finished pipeline"
+        withCredentials([string(credentialsId: 'SLACK_WEBHOOK_URL', variable: 'SLACK_WEBHOOK_URL')]) {
+            sh """
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"Pipeline ${env.JOB_NAME} Build_ID:${env.BUILD_ID} completed with status: ${currentBuild.result}"}' ${SLACK_WEBHOOK_URL}
+            """
         }
+        withCredentials([string(credentialsId: "TELEGRAM_TOKEN", variable: "TELEGRAM_TOKEN")]) {
+            sh """
+            curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage -d chat_id=${TELEGRAM_CHAT_ID} -d text="Pipeline ${env.JOB_NAME} Build_ID:${env.BUILD_ID} completed with status: ${currentBuild.result}"
+            """
+        }
+    }
     }
 }
