@@ -211,7 +211,11 @@ pipeline {
             }
         }
         always {
-            echo "Finished pipeline"
+            withCredentials([string(credentialsId: 'SLACK_WEBHOOK_URL', variable: 'SLACK_WEBHOOK_URL')]) {
+                sh """
+                curl -X POST -H 'Content-type: application/json' --data '{"text":"Build:${env.BUILD_ID} Name:${env.JOB_NAME}"}' ${SLACK_WEBHOOK_URL}
+                """
+            }
         }
     }
 }
