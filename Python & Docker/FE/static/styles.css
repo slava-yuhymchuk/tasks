@@ -31,12 +31,12 @@ td {
 
 th {
     background-color: #f2f2f2;
+    text-align: left;
 }
 
-th.actions-column,
-td.actions-column {
-    width: 30px;
-    text-align: left;
+.actions-column {
+    width: 50px;
+    text-align: center;
 }
 
 .dropdown {
@@ -64,30 +64,17 @@ td.actions-column {
     background-color: #f1f1f1;
 }
 
-.dropdown button {
-    border: none;
-    background-color: #f9f9f9;
-    color: black;
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 16px;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 
-.dropdown button:hover {
-    background-color: #ddd;
-}
-
+/* Modal styles */
 #taskModal,
 #chatGPTModal {
     display: none;
     position: fixed;
     z-index: 1;
+    padding-top: 60px;
     left: 0;
     top: 0;
     width: 100%;
@@ -98,11 +85,10 @@ td.actions-column {
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 500px;
 }
 
 .close {
@@ -119,83 +105,39 @@ td.actions-column {
     cursor: pointer;
 }
 
-input[type="text"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-textarea {
-    width: calc(100% - 20px);
-    padding: 10px;
-    height: 100px;
-    margin-bottom: 10px;
-}
-
-.sidebar button {
-    display: block;
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-}
-
-/* Dark Mode Styles */
-body.dark-mode {
+/* Dark mode styles */
+.dark-mode {
     background-color: #121212;
-    color: #ffffff;
+    color: white;
 }
 
-.dark-mode .sidebar {
-    background-color: #1e1e1e;
-    color: #ffffff;
-}
-
-.dark-mode .content {
-    background-color: #222222;
-}
-
-.dark-mode th {
-    background-color: #333333;
-}
-
-.dark-mode td,
-.dark-mode th {
-    border-color: #444444;
+.dark-mode th,
+.dark-mode td {
+    border: 1px solid #555;
 }
 
 .dark-mode .dropdown-content {
-    background-color: #2a2a2a;
+    background-color: #333;
 }
 
 .dark-mode .dropdown-content a {
-    color: #ffffff;
+    color: white;
 }
 
 .dark-mode .dropdown-content a:hover {
-    background-color: #3a3a3a;
+    background-color: #444;
 }
 
-.dark-mode .dropdown button {
-    background-color: #333333;
-    color: #ffffff;
+/* Compact view styles */
+.compact th,
+.compact td {
+    padding: 4px;
 }
 
-.dark-mode .dropdown button:hover {
-    background-color: #444444;
+.compact .dropdown-content {
+    min-width: 100px;
 }
 
-.dark-mode .modal-content {
-    background-color: #333333;
-    color: #ffffff;
-}
-
-.dark-mode .close {
-    color: #ffffff;
-}
-
-.dark-mode input[type="text"],
-.dark-mode textarea {
-    background-color: #333333;
-    color: #ffffff;
-    border: 1px solid #444444;
+.compact .sidebar {
+    width: 150px;
 }

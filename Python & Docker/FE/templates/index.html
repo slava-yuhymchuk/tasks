@@ -9,7 +9,7 @@
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <script>
         /* VERSION */
-        const version = "v1.4";
+        const version = "v1.5";
 
         document.addEventListener("DOMContentLoaded", () => {
             fetchTasks();
@@ -212,6 +212,7 @@
         <div class="sidebar">
             <button onclick="showNewTaskForm()">New Task</button>
             <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+            <button id="compactViewButton" onclick="toggleCompactView()">Toggle Compact View</button>
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Task Management Logo"
                 style="width:100%; margin-top: 20px;">
             <p id="versionInfo" style="text-align: center; font-size: small;"></p>
