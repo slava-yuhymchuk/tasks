@@ -1,6 +1,9 @@
 # Pull the image
 FROM python:alpine
 
+# Create a non-root user
+RUN adduser -D nonrootuser
+
 # Set working directory
 WORKDIR /tasks
 
