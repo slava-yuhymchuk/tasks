@@ -11,11 +11,6 @@ WORKDIR /tasks
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-# Change ownership of the files
-RUN chown -R nonrootuser:nonrootuser /tasks
-
-# Switch to the non-root user
-USER nonrootuser
 
 # Copy project files into the image
 COPY tasks_fe.py .
@@ -28,6 +23,12 @@ COPY static/favicon.ico /tasks/static/
 COPY static/images/logo.png /tasks/static/images/
 COPY static/images/photo.jpg /tasks/static/images/
 COPY templates/index.html /tasks/templates/
+
+# Change ownership of the files
+RUN chown -R nonrootuser:nonrootuser /tasks
+
+# Switch to the non-root user
+USER nonrootuser
 
 # Configure the container to run
 CMD ["python3", "tasks_fe.py"]
