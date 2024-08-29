@@ -45,7 +45,7 @@ metadata:
   namespace: uptime-kuma
 spec:
   ports:
-    - port: 3001
+    - port: 80
       protocol: TCP
       targetPort: 3001
   selector:

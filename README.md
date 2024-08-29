@@ -1,8 +1,6 @@
 
 ![image](https://github.com/user-attachments/assets/9c46fc1c-5857-4e6b-a396-3ee231dfe8e4)
 
-
-
 ## Web UI
 
 - `DEV` : https://tasks-dev.devsecops15.com/
