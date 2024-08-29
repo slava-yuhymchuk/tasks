@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <script>
-        /* VERSION */
         const version = "v1.4";
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -46,6 +45,9 @@
                             <td>${task.Title}</td>
                             <td>${task.Details}</td>
                             <td>${task.Status}</td>
+                            <td>${task.Priority}</td>
+                            <td>${task.Category}</td>
+                            <td>${task.Deadline ? new Date(task.Deadline).toLocaleDateString() : ''}</td>
                         `;
                         tbody.appendChild(row);
                     });
@@ -98,12 +100,15 @@
             event.preventDefault();
             const title = document.getElementById('taskTitle').value;
             const details = document.getElementById('taskDetails').value;
+            const category = document.getElementById('taskCategory').value;
+            const priority = document.getElementById('taskPriority').value;
+            const deadline = document.getElementById('taskDeadline').value;
             fetch('/tasks', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ Title: title, Details: details })
+                body: JSON.stringify({ Title: title, Details: details, Category: category, Priority: priority, Deadline: deadline })
             })
                 .then(response => response.json())
                 .then(() => {
@@ -119,6 +124,9 @@
                 .then(task => {
                     document.getElementById('taskTitle').value = task.Title;
                     document.getElementById('taskDetails').value = task.Details;
+                    document.getElementById('taskCategory').value = task.Category;
+                    document.getElementById('taskPriority').value = task.Priority;
+                    document.getElementById('taskDeadline').value = task.Deadline;
                     document.getElementById('taskId').value = task.ID;
                     document.getElementById('taskModal').style.display = 'block';
                     document.getElementById('taskFormButton').textContent = 'Update Task';
@@ -133,12 +141,15 @@
             event.preventDefault();
             const title = document.getElementById('taskTitle').value;
             const details = document.getElementById('taskDetails').value;
+            const category = document.getElementById('taskCategory').value;
+            const priority = document.getElementById('taskPriority').value;
+            const deadline = document.getElementById('taskDeadline').value;
             fetch(`/tasks/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ Title: title, Details: details, Status: 'New' })
+                body: JSON.stringify({ Title: title, Details: details, Category: category, Priority: priority, Deadline: deadline, Status: 'New' })
             })
                 .then(response => response.json())
                 .then(() => {
@@ -181,6 +192,38 @@
                 document.body.classList.add('dark-mode');
             }
         }
+
+        /* Search Task */
+        function searchTasks() {
+            const searchTerm = document.getElementById('taskSearch').value.toLowerCase();
+            document.querySelectorAll('tbody tr').forEach(row => {
+                const title = row.children[1].innerText.toLowerCase();
+                row.style.display = title.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        /* Sort Tasks */
+        function sortTasks() {
+            const sortBy = document.getElementById('sortTasks').value;
+            const rows = Array.from(document.querySelector('tbody').children);
+
+            rows.sort((a, b) => {
+                const textA = a.querySelector(`td:nth-child(${getSortIndex(sortBy)})`).innerText.toLowerCase();
+                const textB = b.querySelector(`td:nth-child(${getSortIndex(sortBy)})`).innerText.toLowerCase();
+                return textA.localeCompare(textB);
+            });
+
+            rows.forEach(row => document.querySelector('tbody').appendChild(row));
+        }
+
+        function getSortIndex(sortBy) {
+            const sortMap = {
+                'Title': 2,
+                'Date': 7,
+                'Status': 4
+            };
+            return sortMap[sortBy];
+        }
     </script>
 </head>
 
@@ -194,8 +237,21 @@
                 <input type="text" id="taskTitle" name="Title" required><br><br>
                 <label for="taskDetails">Details:</label>
                 <textarea id="taskDetails" name="Details" required></textarea><br><br>
-                <input type="hidden" id="taskId" name="ID">
-                <button id="taskFormButton" type="submit">Add Task</button>
+                <label for="taskCategory">Category:</label>
+                <select id="taskCategory" name="Category" required>
+                    <option value="Work">Work</option>
+                    <option value="Personal">Personal</option>
+                    <option value="Urgent">Urgent</option>
+                </select><br><br>
+                <label for="taskPriority">Priority:</label>
+                <select id="taskPriority" name="Priority" required>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select><br><br>
+                <label for="taskDeadline">Deadline:</label>
+                <input type="date" id="taskDeadline" name="Deadline"><br><br>
+                <button type="submit" id="taskFormButton">Add Task</button>
             </form>
         </div>
     </div>
@@ -203,35 +259,43 @@
     <div id="chatGPTModal">
         <div class="modal-content">
             <span class="close" onclick="hideChatGPTModal()">&times;</span>
-            <h2>ChatGPT response:</h2>
-            <p id="chatGPTResponse">Waiting for response from ChatGPT...</p>
+            <h2>ChatGPT Response</h2>
+            <p id="chatGPTResponse">Response from ChatGPT will appear here.</p>
         </div>
     </div>
 
-    <div class="container">
-        <div class="sidebar">
-            <button onclick="showNewTaskForm()">New Task</button>
-            <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Task Management Logo"
-                style="width:100%; margin-top: 20px;">
-            <p id="versionInfo" style="text-align: center; font-size: small;"></p>
-        </div>
-        <div class="content">
-            <h1>Tasks</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Title</th>
-                        <th>Details</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
+    <button id="newTaskButton" onclick="showNewTaskForm()">New Task</button>
+
+    <div class="search-sort-container">
+        <input type="text" id="taskSearch" placeholder="Search tasks..." onkeyup="searchTasks()">
+        <label for="sortTasks">Sort by:</label>
+        <select id="sortTasks" onchange="sortTasks()">
+            <option value="Title">Title</option>
+            <option value="Date">Date</option>
+            <option value="Status">Status</option>
+        </select>
     </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Actions</th>
+                <th>Title</th>
+                <th>Details</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Category</th>
+                <th>Deadline</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div>
+        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+    </div>
+
+    <div id="versionInfo"></div>
 </body>
 
 </html>
