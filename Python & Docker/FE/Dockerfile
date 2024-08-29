@@ -1,12 +1,14 @@
-# Pull the image
 FROM python:alpine
 
-# Set working directory
+# Create a non-root user
+RUN adduser -D nonrootuser
+
+# Set the working directory
 WORKDIR /tasks
 
 # Install required packages
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy project files into the image
 COPY tasks_fe.py .
@@ -19,6 +21,12 @@ COPY static/favicon.ico /tasks/static/
 COPY static/images/logo.png /tasks/static/images/
 COPY static/images/photo.jpg /tasks/static/images/
 COPY templates/index.html /tasks/templates/
+
+# Change ownership of the files
+RUN chown -R nonrootuser:nonrootuser /tasks
+
+# Switch to the non-root user
+USER nonrootuser
 
 # Configure the container to run
 CMD ["python3", "tasks_fe.py"]
