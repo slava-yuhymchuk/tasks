@@ -87,24 +87,6 @@ pipeline {
                         }
                     }
                 }
-
-                stage('Upload File to Slack') {
-                    steps {
-                        script {
-                            sh '''
-                            curl -F file=@TrivyScan_Backend.txt \
-                                -F "initial_comment=Here is the file you requested from the pipeline." \
-                                -F channels="C07J7EV0740" \
-                                -F filename="TrivyScan_Backend.txt" \
-                                -F title="TrivyScan_Backend" \
-                                -H "Authorization: Bearer ${SLACK_WEBHOOK_URL}" \
-                                https://slack.com/api/files.upload
-                            '''
-                        }
-                    }
-                }
-
-
                 stage("Telegram Trivy Scan FE") {
                     steps {
                         echo "Sending results of Trivy vulnerability scan on ${REGISTRY_FE}:${VERSION_FE} via Telegram"
