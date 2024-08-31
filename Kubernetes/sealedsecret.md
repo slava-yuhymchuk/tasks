@@ -4,11 +4,11 @@
   ```
 - `Encrypt regular secret and output to sealedsecret yaml file:`
   ```bash
-  kubeseal -f secret-openai.yaml -w sealedsecret-openai-dev.yaml
+  kubeseal -f secret-openai.yaml -w sealedsecret-openai.yaml
   ```
 - `Create sealedsecret in tasks namespace:`
   ```bash
-  kubectl -n tasks create -f sealedsecret-openai-dev.yaml
+  kubectl -n tasks create -f sealedsecret-openai.yaml
   ```
 - `Verify that sealedsecret was created in tasks namespace:`
   ```bash
