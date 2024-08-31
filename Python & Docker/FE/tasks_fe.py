@@ -1,4 +1,4 @@
-# v2.69
+# v2.70
 from flask import Flask, request, abort, render_template, jsonify
 from os import environ
 import requests
