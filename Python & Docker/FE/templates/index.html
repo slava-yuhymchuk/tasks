@@ -169,33 +169,34 @@
         /* Dark Mode Script */
         function toggleDarkMode() {
             const body = document.body;
-            const button = document.getElementById('darkModeToggle');
-            body.classList.toggle('dark-mode');
-            const isDarkMode = body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDarkMode);
-            updateImageVisibility(isDarkMode);
-            updateButtonLabel(isDarkMode);
+            const darkModeEnabled = body.classList.toggle('dark-mode');
+            const darkModeButton = document.querySelector('.toggle-dark-mode-btn');
+
+            if (darkModeEnabled) {
+                darkModeButton.textContent = "Toggle Bright Mode";
+            } else {
+                darkModeButton.textContent = "Toggle Dark Mode";
+            }
+
+            localStorage.setItem('darkMode', darkModeEnabled);
+
+            const bravosixImg = document.getElementById('bravosixImage');
+            if (darkModeEnabled) {
+                bravosixImg.style.display = 'block';
+            } else {
+                bravosixImg.style.display = 'none';
+            }
         }
 
         function loadThemePreference() {
             const isDarkMode = JSON.parse(localStorage.getItem('darkMode'));
             if (isDarkMode) {
                 document.body.classList.add('dark-mode');
+                document.querySelector('.toggle-dark-mode-btn').textContent = "Toggle Bright Mode";
+                document.getElementById('bravosixImage').style.display = 'block';
+            } else {
+                document.querySelector('.toggle-dark-mode-btn').textContent = "Toggle Dark Mode";
             }
-            updateImageVisibility(isDarkMode);
-            updateButtonLabel(isDarkMode);
-        }
-
-        function updateImageVisibility(isDarkMode) {
-            const bravosix = document.getElementById('bravosix');
-            const brightmode = document.getElementById('brightmode');
-            bravosix.style.display = isDarkMode ? 'block' : 'none';
-            brightmode.style.display = isDarkMode ? 'none' : 'block';
-        }
-
-        function updateButtonLabel(isDarkMode) {
-            const button = document.getElementById('darkModeToggle');
-            button.textContent = isDarkMode ? 'Toggle Bright Mode' : 'Toggle Dark Mode';
         }
     </script>
 </head>
@@ -226,30 +227,29 @@
 
     <div class="container">
         <div class="sidebar">
-            <button onclick="showNewTaskForm()">New Task</button>
-            <button id="darkModeToggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
-            <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Task Management Logo"
+            <button class="toggle-dark-mode-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Task Management Logo"
                 style="width:100%; margin-top: 20px;">
-            <!-- Images for light and dark mode -->
-            <img id="brightmode" src="{{ url_for('static', filename='images/brightmode.png') }}" alt="BrightMode Image"
-                style="width:100%; display: block; margin-top: 20px;">
-            <img id="bravosix" src="{{ url_for('static', filename='images/bravosix.png') }}" alt="Bravosix Image"
-                style="width:100%; display: none; margin-top: 20px;">
-            <div id="versionInfo" style="margin-top: 20px;"></div>
+            <img id="bravosixImage" src="{{ url_for('static', filename='images/bravosix.png') }}" alt="Bravo Six Image"
+                style="width:100%; margin-top: 20px; display: none;">
+            <p id="versionInfo" style="text-align: center; font-size: small;"></p>
         </div>
-        <div class="main">
+        <div class="content">
+            <h1>Tasks</h1>
             <table>
                 <thead>
                     <tr>
-                        <th>Actions</th>
+                        <th></th>
                         <th>Title</th>
                         <th>Details</th>
                         <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Task rows will be populated here by fetchTasks() -->
                 </tbody>
             </table>
+            <button onclick="showNewTaskForm()">Add Task</button>
         </div>
     </div>
 </body>
