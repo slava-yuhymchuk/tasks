@@ -34,7 +34,7 @@
                         row.innerHTML = `
                             <td class="actions-column">
                                 <div class="dropdown">
-                                    <button onclick="toggleDropdown(${task.ID}, event)">Actions</button>
+                                    <button onclick="toggleDropdown(${task.ID}, event)">...</button>
                                     <div id="dropdown-${task.ID}" class="dropdown-content">
                                         <a href="#" onclick="markTaskDone(${task.ID})">Done!</a>
                                         <a href="#" onclick="showUpdateTaskForm(${task.ID})">Update</a>
@@ -158,7 +158,7 @@
                 })
                 .catch(error => {
                     document.getElementById('chatGPTResponse').innerText = 'Error fetching response from ChatGPT';
-                    console.error('Error:', error);
+                    console.error('Error asking ChatGPT:', error);
                 });
         }
 
@@ -166,76 +166,69 @@
             document.getElementById('chatGPTModal').style.display = 'none';
         }
 
-        function loadThemePreference() {
-            const theme = localStorage.getItem('theme') || 'light';
-            if (theme === 'dark') {
-                document.body.classList.add('dark-mode');
-                document.getElementById('themeToggle').checked = true;
-            }
+        /* Dark Mode Script */
+        function toggleDarkMode() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            const isDarkMode = body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
         }
 
-        function toggleTheme() {
-            if (document.body.classList.contains('dark-mode')) {
-                document.body.classList.remove('dark-mode');
-                localStorage.setItem('theme', 'light');
-            } else {
+        function loadThemePreference() {
+            const isDarkMode = JSON.parse(localStorage.getItem('darkMode'));
+            if (isDarkMode) {
                 document.body.classList.add('dark-mode');
-                localStorage.setItem('theme', 'dark');
             }
         }
     </script>
 </head>
 
 <body>
+    <div id="taskModal">
+        <div class="modal-content">
+            <span class="close" onclick="hideTaskForm()">&times;</span>
+            <h2>Task</h2>
+            <form id="taskForm" onsubmit="addTask(event)">
+                <label for="taskTitle">Title:</label>
+                <input type="text" id="taskTitle" name="Title" required><br><br>
+                <label for="taskDetails">Details:</label>
+                <textarea id="taskDetails" name="Details" required></textarea><br><br>
+                <input type="hidden" id="taskId" name="ID">
+                <button id="taskFormButton" type="submit">Add Task</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="chatGPTModal">
+        <div class="modal-content">
+            <span class="close" onclick="hideChatGPTModal()">&times;</span>
+            <h2>ChatGPT response:</h2>
+            <p id="chatGPTResponse">Waiting for response from ChatGPT...</p>
+        </div>
+    </div>
+
     <div class="container">
         <div class="sidebar">
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Task Management Logo"
-                class="logo-image">
-            <img src="{{ url_for('static', filename='images/dark-mode-image.png') }}" alt="Dark Mode Image"
-                class="dark-mode-image">
             <button onclick="showNewTaskForm()">New Task</button>
-            <button onclick="toggleTheme()">Toggle Dark Mode</button>
+            <!-- <button onclick="toggleDarkMode()">Toggle Dark Mode</button> -->
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Task Management Logo"
+                style="width:100%; margin-top: 20px;">
+            <p id="versionInfo" style="text-align: center; font-size: small;"></p>
         </div>
         <div class="content">
-            <h1>Task Management System <span id="versionInfo"></span></h1>
+            <h1>Tasks</h1>
             <table>
                 <thead>
                     <tr>
-                        <th>Actions</th>
+                        <th></th>
                         <th>Title</th>
                         <th>Details</th>
                         <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Tasks will be loaded here dynamically -->
                 </tbody>
             </table>
-        </div>
-    </div>
-
-    <!-- Task Modal -->
-    <div id="taskModal">
-        <div class="modal-content">
-            <span class="close" onclick="hideTaskForm()">&times;</span>
-            <h2 id="modalTitle">Add Task</h2>
-            <form id="taskForm">
-                <input type="hidden" id="taskId">
-                <label for="taskTitle">Title:</label>
-                <input type="text" id="taskTitle" required>
-                <label for="taskDetails">Details:</label>
-                <textarea id="taskDetails" required></textarea>
-                <button type="submit" id="taskFormButton">Add Task</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- ChatGPT Modal -->
-    <div id="chatGPTModal">
-        <div class="modal-content">
-            <span class="close" onclick="hideChatGPTModal()">&times;</span>
-            <h2>ChatGPT Response</h2>
-            <pre id="chatGPTResponse">Waiting for response from ChatGPT...</pre>
         </div>
     </div>
 </body>
