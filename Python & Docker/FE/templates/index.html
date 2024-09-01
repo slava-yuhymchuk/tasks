@@ -211,8 +211,11 @@
         <div class="sidebar">
             <button onclick="showNewTaskForm()">New Task</button>
             <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Task Management Logo"
+            <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Task Management Logo"
                 style="width:100%; margin-top: 20px;">
+            <!-- New image for dark mode -->
+            <img id="bravosix" src="{{ url_for('static', filename='images/bravosix.png') }}" alt="BravoSix Image"
+                style="width:100%; display: none; margin-top: 20px;">
             <p id="versionInfo" style="text-align: center; font-size: small;"></p>
         </div>
         <div class="content">

@@ -199,3 +199,12 @@ body.dark-mode {
     color: #ffffff;
     border: 1px solid #444444;
 }
+
+/* Dark Mode Styles */
+body.dark-mode #logo {
+    display: none;
+}
+
+body.dark-mode #bravosix {
+    display: block;
+}
