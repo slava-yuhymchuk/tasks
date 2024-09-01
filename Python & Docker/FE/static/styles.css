@@ -1,4 +1,4 @@
-/* Base styles */
+/* General styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -103,10 +103,11 @@ tr:hover {
     max-width: 500px;
 }
 
-/* Dark Mode styles */
+/* Dark Mode Styles */
 body.dark-mode {
     background-color: #333;
     color: #ccc;
+    /* Keep this to ensure text remains readable */
 }
 
 body.dark-mode .sidebar {
@@ -118,18 +119,10 @@ body.dark-mode .sidebar .dark-mode-image {
     /* Show in dark mode */
 }
 
-body.dark-mode table {
-    border-color: #555;
-}
-
-body.dark-mode th {
-    background-color: #666;
-    color: #fff;
-}
-
-body.dark-mode td {
-    background-color: #555;
-    color: #ccc;
+/* Ensure the dark mode image has the same size as the logo */
+body.dark-mode .sidebar .dark-mode-image {
+    width: 100%;
+    /* Same width as the logo */
 }
 
 /* Button styles */

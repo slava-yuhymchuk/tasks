@@ -17,7 +17,8 @@ RUN mkdir -p /tasks/templates
 COPY static/styles.css /tasks/static/
 COPY static/favicon.ico /tasks/static/
 COPY static/images/logo.png /tasks/static/images/
-COPY static/images/photo.jpg /tasks/static/images/
+COPY static/images/logo.png /tasks/static/images/
+COPY static/images/dark-mode-image.png /tasks/static/images/
 COPY templates/index.html /tasks/templates/
 
 # Configure the container to run
