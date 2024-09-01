@@ -169,10 +169,12 @@
         /* Dark Mode Script */
         function toggleDarkMode() {
             const body = document.body;
+            const button = document.getElementById('darkModeToggle');
             body.classList.toggle('dark-mode');
             const isDarkMode = body.classList.contains('dark-mode');
             localStorage.setItem('darkMode', isDarkMode);
             updateImageVisibility(isDarkMode);
+            updateButtonLabel(isDarkMode);
         }
 
         function loadThemePreference() {
@@ -181,6 +183,7 @@
                 document.body.classList.add('dark-mode');
             }
             updateImageVisibility(isDarkMode);
+            updateButtonLabel(isDarkMode);
         }
 
         function updateImageVisibility(isDarkMode) {
@@ -188,6 +191,11 @@
             const brightmode = document.getElementById('brightmode');
             bravosix.style.display = isDarkMode ? 'block' : 'none';
             brightmode.style.display = isDarkMode ? 'none' : 'block';
+        }
+
+        function updateButtonLabel(isDarkMode) {
+            const button = document.getElementById('darkModeToggle');
+            button.textContent = isDarkMode ? 'Toggle Bright Mode' : 'Toggle Dark Mode';
         }
     </script>
 </head>
@@ -219,15 +227,15 @@
     <div class="container">
         <div class="sidebar">
             <button onclick="showNewTaskForm()">New Task</button>
-            <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+            <button id="darkModeToggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
             <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Task Management Logo"
                 style="width:100%; margin-top: 20px;">
             <!-- Images for light and dark mode -->
             <img id="brightmode" src="{{ url_for('static', filename='images/brightmode.png') }}" alt="BrightMode Image"
                 style="width:100%; display: block; margin-top: 20px;">
-            <img id="bravosix" src="{{ url_for('static', filename='images/bravosix.png') }}" alt="BravoSix Image"
+            <img id="bravosix" src="{{ url_for('static', filename='images/bravosix.png') }}" alt="Bravosix Image"
                 style="width:100%; display: none; margin-top: 20px;">
-            <p id="versionInfo" style="text-align: center; font-size: small;"></p>
+            <div id="versionInfo" style="margin-top: 20px;"></div>
         </div>
         <div class="main">
             <table>
