@@ -34,7 +34,7 @@
                         row.innerHTML = `
                             <td class="actions-column">
                                 <div class="dropdown">
-                                    <button onclick="toggleDropdown(${task.ID}, event)">...</button>
+                                    <button onclick="toggleDropdown(${task.ID}, event)">Actions</button>
                                     <div id="dropdown-${task.ID}" class="dropdown-content">
                                         <a href="#" onclick="markTaskDone(${task.ID})">Done!</a>
                                         <a href="#" onclick="showUpdateTaskForm(${task.ID})">Update</a>
@@ -158,7 +158,7 @@
                 })
                 .catch(error => {
                     document.getElementById('chatGPTResponse').innerText = 'Error fetching response from ChatGPT';
-                    console.error('Error asking ChatGPT:', error);
+                    console.error('Error:', error);
                 });
         }
 
@@ -194,9 +194,7 @@
             <img src="{{ url_for('static', filename='images/dark-mode-image.png') }}" alt="Dark Mode Image"
                 class="dark-mode-image">
             <button onclick="showNewTaskForm()">New Task</button>
-            <label>
-                <input type="checkbox" id="themeToggle" onclick="toggleTheme()"> Dark Mode
-            </label>
+            <button onclick="toggleTheme()">Toggle Dark Mode</button>
         </div>
         <div class="content">
             <h1>Task Management System <span id="versionInfo"></span></h1>
