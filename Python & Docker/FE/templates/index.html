@@ -185,7 +185,9 @@
 
         function updateImageVisibility(isDarkMode) {
             const bravosix = document.getElementById('bravosix');
+            const brightmode = document.getElementById('brightmode');
             bravosix.style.display = isDarkMode ? 'block' : 'none';
+            brightmode.style.display = isDarkMode ? 'none' : 'block';
         }
     </script>
 </head>
@@ -220,17 +222,18 @@
             <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
             <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Task Management Logo"
                 style="width:100%; margin-top: 20px;">
-            <!-- New image for dark mode -->
+            <!-- Images for light and dark mode -->
+            <img id="brightmode" src="{{ url_for('static', filename='images/brightmode.png') }}" alt="BrightMode Image"
+                style="width:100%; display: block; margin-top: 20px;">
             <img id="bravosix" src="{{ url_for('static', filename='images/bravosix.png') }}" alt="BravoSix Image"
                 style="width:100%; display: none; margin-top: 20px;">
             <p id="versionInfo" style="text-align: center; font-size: small;"></p>
         </div>
-        <div class="content">
-            <h1>Tasks</h1>
+        <div class="main">
             <table>
                 <thead>
                     <tr>
-                        <th></th>
+                        <th>Actions</th>
                         <th>Title</th>
                         <th>Details</th>
                         <th>Status</th>

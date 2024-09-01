@@ -209,3 +209,21 @@ body.dark-mode {
 body.dark-mode .sidebar {
     background-color: #1e1e1e;
 }
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode .sidebar {
+    background-color: #1e1e1e;
+}
+
+body .sidebar #brightmode {
+    display: none;
+}
+
+body .sidebar #bravosix {
+    display: block;
+}

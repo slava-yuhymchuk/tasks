@@ -19,6 +19,7 @@ COPY static/favicon.ico /tasks/static/
 COPY static/images/logo.png /tasks/static/images/
 COPY static/images/logo.png /tasks/static/images/
 COPY static/images/bravosix.png /tasks/static/images/
+COPY static/images/brightmode.png /tasks/static/images/
 COPY templates/index.html /tasks/templates/
 
 # Configure the container to run
