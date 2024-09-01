@@ -172,6 +172,7 @@
             body.classList.toggle('dark-mode');
             const isDarkMode = body.classList.contains('dark-mode');
             localStorage.setItem('darkMode', isDarkMode);
+            updateImageVisibility(isDarkMode);
         }
 
         function loadThemePreference() {
@@ -179,6 +180,12 @@
             if (isDarkMode) {
                 document.body.classList.add('dark-mode');
             }
+            updateImageVisibility(isDarkMode);
+        }
+
+        function updateImageVisibility(isDarkMode) {
+            const bravosix = document.getElementById('bravosix');
+            bravosix.style.display = isDarkMode ? 'block' : 'none';
         }
     </script>
 </head>
