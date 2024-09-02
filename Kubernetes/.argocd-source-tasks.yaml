@@ -1,4 +1,4 @@
 kustomize:
   images:
-  - slavayuhymchuk/tasks_fe:2.74
+  - slavayuhymchuk/tasks_fe:2.75
   - slavayuhymchuk/tasks_be:1.0
