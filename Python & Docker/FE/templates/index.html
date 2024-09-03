@@ -9,7 +9,7 @@
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <script>
         /* VERSION */
-        const version = "v2.75";
+        const version = "v2.76";
 
         document.addEventListener("DOMContentLoaded", () => {
             fetchTasks();
@@ -39,6 +39,7 @@
                                         <a href="#" onclick="markTaskDone(${task.ID})">Done!</a>
                                         <a href="#" onclick="showUpdateTaskForm(${task.ID})">Update</a>
                                         <a href="#" onclick="deleteTask(${task.ID})">Delete</a>
+                                        <a href="#" onclick="askChatGPT(${task.ID})">Ask ChatGPT</a>
                                     </div>
                                 </div>
                             </td>
@@ -227,7 +228,7 @@
     <div class="container">
         <div class="sidebar">
             <button onclick="showNewTaskForm()">New Task</button>
-            <!-- <button id="darkModeToggle" onclick="toggleDarkMode()">Toggle Dark Mode</button> -->
+            <button id="darkModeToggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
             <img id="logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Task Management Logo"
                 style="width:100%; margin-top: 20px;">
             <!-- Images for light and dark mode -->
